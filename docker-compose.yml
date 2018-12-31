@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db: 
+    image: "microsoft/mssql-server-linux:2017-latest"
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: Y
+      # note that password only has one dollar sign -- two here actually denotes
+      # one since a single dollar sign would otherwise indicate variable interpolation
+      SA_PASSWORD: ABcd12#$$
+      MSSQL_PID: Express
+
+  essbase:
+    depends_on: 
+      - db
+    build: .
+    ports:
+      - "9000:9000"
+    #stdin_open: true
+    #tty: true
+    environment:
+      foo: bar
+
+ 
+

@@ -1,0 +1,30 @@
+/* invoked with startMaxl.sh */
+
+
+login "admin" "password" on "localhost";
+
+import database "Sample"."Basic" data 
+	from server data_file "Calcdat" 
+	on error abort;
+
+execute calculation default 
+	on "Sample"."Basic";
+	
+	
+import database "Demo"."Basic" data 
+	from server data_file "Data" 
+	on error abort;
+
+execute calculation default 
+	on "Demo"."Basic";
+	
+import database "ASOsamp"."Sample" data
+	from server data_file "dataload" 
+	using server rules_file "dataload"
+	on error abort;
+	
+execute aggregate process on database "ASOsamp"."Sample"
+	stopping when total_size exceeds 1.1;
+
+logout;
+exit;

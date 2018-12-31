@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<products>
+  <instance>/home/oracle/Oracle/Middleware/user_projects/epmsystem1</instance>
+  <enable_compact_deployment_mode>true</enable_compact_deployment_mode>
+  <auto_port_tick>true</auto_port_tick>
+  <product productXML="Foundation">
+    <tasks>
+      <task>applicationServerDeployment</task>
+      <task>FndCommonSetting</task>
+      <task>preConfiguration</task>
+      <task>relationalStorageConfiguration</task>
+      <task>WebServerConfiguration</task>
+    </tasks>
+    <bean name="main">
+      <bean name="applicationServerDeployment">
+        <bean name="WebLogic 10">
+          <property name="adminHost">3b1a0423522b</property>
+          <property name="adminPassword">W+L8ojMkLlhf2HzrxzTkp1Ze3Wmax/7NQmOT9VLnwV5gEtCxPXMcasXw+esAKiO4</property>
+          <property name="adminPort">7001</property>
+          <property name="adminUser">epm_admin</property>
+          <beanList name="applications">
+            <listItem>
+              <bean>
+                <property name="compactPort">9000</property>
+                <property name="compactServerName">EPMServer</property>
+                <property name="compactSslPort">9443</property>
+                <property name="component">Shared Services</property>
+                <beanList name="contexts">
+                  <listItem>
+                    <property>interop</property>
+                  </listItem>
+                </beanList>
+                <property name="enable">true</property>
+                <property name="port">28080</property>
+                <property name="serverName">FoundationServices</property>
+                <property name="sslPort">28443</property>
+                <property name="validationContext">interop</property>
+              </bean>
+            </listItem>
+          </beanList>
+          <property name="BEA_HOME">/home/oracle/Oracle/Middleware</property>
+          <property name="domainName">EPMSystem</property>
+          <property name="manualProcessing">false</property>
+          <property name="remoteDeployment">false</property>
+          <property name="serverLocation">/home/oracle/Oracle/Middleware/wlserver_10.3</property>
+        </bean>
+      </bean>
+      <bean name="customConfiguration">
+        <property name="AdminEmail"/>
+        <property name="adminPassword">ZkbJjvOM+oYl1HowGUI5Tvz0yPKqn86YkS9dxvsjrXzvUadouTZ6tFK3F82Tkw6G</property>
+        <property name="adminUserName">admin</property>
+        <property name="common_lwa_set">false</property>
+        <property name="enable_SMTPServer_Authentication">false</property>
+        <property name="enable_ssl">false</property>
+        <property name="enableSslOffloading">false</property>
+        <property name="externalUrlHost"/>
+        <property name="externalUrlPort"/>
+        <property name="filesystem.artifact.path">import_export</property>
+        <property name="isSSLForSMTP">false</property>
+        <property name="relativePaths"/>
+        <property name="relativePathsInstance">filesystem.artifact.path</property>
+        <property name="SMTPHostName"/>
+        <property name="SMTPMailServer"/>
+        <property name="SMTPPort">25</property>
+        <property name="SMTPPortIncoming">143</property>
+        <property name="SMTPServerPassword"/>
+        <property name="SMTPServerUserID"/>
+      </bean>
+      <bean name="httpServerConfiguration">
+        <property name="displayVersion">10.3.6</property>
+        <property name="port">9000</property>
+        <property name="protocol">http</property>
+        <bean name="Proxy">
+          <property name="path"/>
+          <property name="port">9000</property>
+          <property name="useSSL">false</property>
+        </bean>
+        <property name="sharedLocation">use_local_instance</property>
+      </bean>
+      <bean name="lwaConfiguration">
+        <beanList name="batchUpdateLWAComponents"/>
+        <beanList name="deploymentLWAComponents"/>
+      </bean>
+      <bean name="relationalStorageConfiguration">
+        <bean name="MS_SQL_SERVER">
+          <property name="createOrReuse">create</property>
+          <property name="customURL">false</property>
+          <property name="dbIndexTbsp"/>
+          <property name="dbName">EPM_HSS</property>
+          <property name="dbTableTbsp"/>
+          <property name="encrypted">true</property>
+          <property name="host">db</property>
+          <property name="jdbcUrl">jdbc:weblogic:sqlserver://db:1433;databaseName=EPM_HSS</property>
+          <property name="password">AuJLrGpDQIFaudJMutm5pyYEfiJ5fb0vn4TFgEh6F6RUG8grY7jYzTeo1EwkvX9L</property>
+          <property name="port">1433</property>
+          <property name="SSL_ENABLED">false</property>
+          <property name="userName">sa</property>
+          <property name="VALIDATESERVERCERTIFICATE">true</property>
+        </bean>
+      </bean>
+      <property name="shortcutFolderName">Foundation Services</property>
+    </bean>
+  </product>
+  <product productXML="APS">
+    <tasks>
+      <task>applicationServerDeployment</task>
+      <task>preConfiguration</task>
+    </tasks>
+    <bean name="main">
+      <bean name="applicationServerDeployment">
+        <bean name="WebLogic 10">
+          <property name="adminHost">3b1a0423522b</property>
+          <property name="adminPassword">aHtcbsDScpZNPRrgVLOfc8/EZJu04sRZnsxyfn+MmDF5Xj88JANQ2PJNOGgfoZjE</property>
+          <property name="adminPort">7001</property>
+          <property name="adminUser">epm_admin</property>
+          <beanList name="applications">
+            <listItem>
+              <bean>
+                <property name="compactPort">9000</property>
+                <property name="compactServerName">EPMServer</property>
+                <property name="compactSslPort">9443</property>
+                <property name="component">aps</property>
+                <beanList name="contexts">
+                  <listItem>
+                    <property>aps</property>
+                  </listItem>
+                </beanList>
+                <property name="enable">true</property>
+                <property name="port">13080</property>
+                <property name="serverName">AnalyticProviderServices</property>
+                <property name="sslPort">13083</property>
+                <property name="validationContext">aps</property>
+              </bean>
+            </listItem>
+          </beanList>
+          <property name="BEA_HOME">/home/oracle/Oracle/Middleware</property>
+          <property name="domainName">EPMSystem</property>
+          <property name="manualProcessing">false</property>
+          <property name="remoteDeployment">false</property>
+          <property name="serverLocation">/home/oracle/Oracle/Middleware/wlserver_10.3</property>
+        </bean>
+      </bean>
+      <bean name="lwaConfiguration">
+        <beanList name="batchUpdateLWAComponents"/>
+        <beanList name="deploymentLWAComponents"/>
+      </bean>
+      <property name="shortcutFolderName">Essbase/Provider Services</property>
+    </bean>
+  </product>
+  <product productXML="eas">
+    <tasks>
+      <task>applicationServerDeployment</task>
+      <task>hubRegistration</task>
+      <task>preConfiguration</task>
+      <task>relationalStorageConfiguration</task>
+    </tasks>
+    <bean name="main">
+      <bean name="applicationServerDeployment">
+        <bean name="WebLogic 10">
+          <property name="adminHost">3b1a0423522b</property>
+          <property name="adminPassword">svdDgfyktQRxHCCBxJ/wJNcvy9vsaFmnFwUOhfbr6ECfIMtIjwnNj9Vwdmq9JWTI</property>
+          <property name="adminPort">7001</property>
+          <property name="adminUser">epm_admin</property>
+          <beanList name="applications">
+            <listItem>
+              <bean>
+                <property name="compactPort">9000</property>
+                <property name="compactServerName">EPMServer</property>
+                <property name="compactSslPort">9443</property>
+                <property name="component">eas</property>
+                <beanList name="contexts">
+                  <listItem>
+                    <property>eas</property>
+                  </listItem>
+                </beanList>
+                <property name="enable">true</property>
+                <property name="port">10080</property>
+                <property name="serverName">EssbaseAdminServices</property>
+                <property name="sslPort">10083</property>
+                <property name="validationContext">easconsole/console.html</property>
+              </bean>
+            </listItem>
+          </beanList>
+          <property name="BEA_HOME">/home/oracle/Oracle/Middleware</property>
+          <property name="domainName">EPMSystem</property>
+          <property name="manualProcessing">false</property>
+          <property name="remoteDeployment">false</property>
+          <property name="serverLocation">/home/oracle/Oracle/Middleware/wlserver_10.3</property>
+        </bean>
+      </bean>
+      <bean name="lwaConfiguration">
+        <beanList name="batchUpdateLWAComponents"/>
+        <beanList name="deploymentLWAComponents"/>
+      </bean>
+      <bean name="relationalStorageConfiguration">
+        <bean name="MS_SQL_SERVER">
+          <property name="createOrReuse">create</property>
+          <property name="customURL">false</property>
+          <property name="dbIndexTbsp"/>
+          <property name="dbName">EPM_EAS</property>
+          <property name="dbTableTbsp"/>
+          <property name="encrypted">true</property>
+          <property name="host">db</property>
+          <property name="jdbcUrl">jdbc:weblogic:sqlserver://db:1433;databaseName=EPM_EAS;loadLibraryPath=/home/oracle/Oracle/Middleware/wlserver_10.3/server/lib</property>
+          <property name="password">IMl5r8o0rP4GjzVNTca7s42DRZ7Hx5fJEnJKWl/VbL38G7vHfTfKDd/dVnhxLmaO</property>
+          <property name="port">1433</property>
+          <property name="SSL_ENABLED">false</property>
+          <property name="userName">sa</property>
+          <property name="VALIDATESERVERCERTIFICATE">false</property>
+        </bean>
+      </bean>
+      <property name="shortcutFolderName">Essbase/Essbase Administration Services</property>
+    </bean>
+  </product>
+  <product productXML="EssbaseServer">
+    <tasks>
+      <task>hubRegistration</task>
+      <task>preConfiguration</task>
+      <task>RegisterEssbaseAsMultipleAgent</task>
+    </tasks>
+    <bean name="main">
+      <bean name="customConfiguration">
+        <property name="AgentPort">1423</property>
+        <property name="AgentSSLPort">6423</property>
+        <property name="AppDirectory">EssbaseServer/essbaseserver1</property>
+        <property name="bindingHost">localhost</property>
+        <property name="ClusterName">EssbaseCluster-1</property>
+        <property name="company">hyperion</property>
+        <property name="component.name">essbaseserver1</property>
+        <property name="EnableClearMode">true</property>
+        <property name="EnableSecureMode">false</property>
+        <property name="EndPort">33768</property>
+        <property name="InstanceName">Essbase1</property>
+        <property name="LangSelect">English_UnitedStates.Latin1@Binary</property>
+        <property name="password">41JS7FLl71HM8QeIikYgIg==</property>
+        <property name="relativePaths"/>
+        <property name="relativePathsInstance">AppDirectory</property>
+        <property name="service">hypservice</property>
+        <property name="StartPort">32768</property>
+        <property name="userID">hypuser</property>
+      </bean>
+      <property name="shortcutFolderName">Essbase/Essbase Server</property>
+    </bean>
+  </product>
+  <product productXML="workspace">
+    <tasks>
+      <task>applicationServerDeployment</task>
+    </tasks>
+    <bean name="main">
+      <bean name="applicationServerDeployment">
+        <bean name="WebLogic 10">
+          <property name="adminHost">3b1a0423522b</property>
+          <property name="adminPassword">BBMdlCA5PRDi31E6O3As3VGL000Rv72fgaPFroUAFC87A2HCO0wpmmujgEb1J7su</property>
+          <property name="adminPort">7001</property>
+          <property name="adminUser">epm_admin</property>
+          <beanList name="applications">
+            <listItem>
+              <bean>
+                <property name="compactPort">9000</property>
+                <property name="compactServerName">EPMServer</property>
+                <property name="compactSslPort">9443</property>
+                <property name="component">Workspace</property>
+                <beanList name="contexts">
+                  <listItem>
+                    <property>workspace</property>
+                  </listItem>
+                </beanList>
+                <property name="enable">true</property>
+                <property name="port">28080</property>
+                <property name="serverName">FoundationServices</property>
+                <property name="sslPort">28443</property>
+                <property name="validationContext">workspace/status</property>
+              </bean>
+            </listItem>
+          </beanList>
+          <property name="BEA_HOME">/home/oracle/Oracle/Middleware</property>
+          <property name="domainName">EPMSystem</property>
+          <property name="manualProcessing">false</property>
+          <property name="remoteDeployment">false</property>
+          <property name="serverLocation">/home/oracle/Oracle/Middleware/wlserver_10.3</property>
+        </bean>
+      </bean>
+      <bean name="httpServerConfiguration">
+        <property name="contextRoot">workspace</property>
+        <property name="host">null</property>
+        <property name="port">19000</property>
+        <property name="protocol">http</property>
+      </bean>
+      <bean name="lwaConfiguration">
+        <beanList name="batchUpdateLWAComponents"/>
+        <beanList name="deploymentLWAComponents"/>
+      </bean>
+      <property name="shortcutFolderName">Workspace</property>
+    </bean>
+  </product>
+</products>
