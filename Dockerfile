@@ -26,13 +26,13 @@ RUN mkdir -p extracted && \
     unzip -o Foundation-11124-Part3.zip -d extracted && \
     unzip -o Essbase-11124-linux64.zip -d extracted
 
-COPY silent-essbase.xml .
+COPY essbase-install.xml .
 
 # I guess don't ever use relative references for either invoking the installer or for 
 # the location of the install response file. The process bounces around various shell
 # invocations and other things and you'll get file not found errors
 
-RUN $HOME/extracted/installTool.sh -silent $HOME/silent-essbase.xml
+RUN $HOME/extracted/installTool.sh -silent $HOME/essbase-install.xml
 
 
 FROM centos:6.9
@@ -72,7 +72,7 @@ WORKDIR /home/oracle
 
 # Other folders from install: bea, oraInventory
 COPY --from=media --chown=oracle:dba /home/oracle/Oracle ./Oracle
-COPY --chown=oracle:dba SimpleJdbcRunner.java config-and-start.sh jtds12.jar silent-essbase.xml essbase-config.xml load-sample-databases.msh ./
+COPY --chown=oracle:dba SimpleJdbcRunner.java config-and-start.sh jtds12.jar essbase-config.xml load-sample-databases.msh ./
 
 USER oracle 
 
