@@ -19,6 +19,10 @@ services:
       - "9000:9000"
     #stdin_open: true
     #tty: true
+    ulimits:
+      nofile:
+        hard: 32000
+        soft: 10000
     environment:
       foo: bar
 

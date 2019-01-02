@@ -6,19 +6,18 @@ set -o pipefail
 
 sleep 30
 
-./Oracle/Middleware/jdk160_35/bin/javac SimpleJdbcRunner.java
+javac SimpleJdbcRunner.java
 
-./Oracle/Middleware/jdk160_35/bin/java -cp .:./jtds12.jar SimpleJdbcRunner \
+java -cp .:./jtds12.jar SimpleJdbcRunner \
     -driver net.sourceforge.jtds.jdbc.Driver \
     -url jdbc:jtds:sqlserver://db \
     -username sa \
     -password 'ABcd12#$' \
     -query "DROP DATABASE IF EXISTS EPM_HSS, EPM_EAS;CREATE DATABASE EPM_HSS;CREATE DATABASE EPM_EAS"
 
-./Oracle/Middleware/EPMSystem11R1/common/config/11.1.2.0/configtool.sh -silent /home/oracle/essbase-config.xml
-
-#export LD_LIBRARY_PATH=/home/oracle/Oracle/Middleware/EPMSystem11R1/products/FinancialManagement/Server/:/home/oracle/Oracle/Middleware/EPMSystem11R1/products/FinancialManagement/Server/mw/lib-amd64_linux_optimized/:/home/oracle/Oracle/Middleware/EPMSystem11R1/common/ODBC-64/Merant/7.1/lib/
-#export EPM_ORACLE_HOME=/home/oracle/Oracle/Middleware/EPMSystem11R1
+# Make sure that the refernce to both of these (or at least the configtool.sh call) are absolute paths
+# as otherwise the exec/fork calls inside will fail
+$EPM_ORACLE_HOME/common/config/11.1.2.0/configtool.sh -silent /home/oracle/essbase-config.xml
 
 # Brings in EPM_ORACLE_HOME, MWHOME, LD_LIBRARY_PATH (although this gets modified later in this script),
 # HYPERION_HOME, and TNS_ADMIN. Must have run the config step prior to this as it is what
@@ -37,12 +36,15 @@ export
 #echo     EPM_ORACLE_HOME = $EPM_ORACLE_HOME
 #echo     LD_LIBRARY_PATH = $LD_LIBRARY_PATH
 
+# Start up services. Note that the first thing the start script does is source in various variables from 
+# setEnv (.../user_projects/epmsystem1/bin/setEnv.sh). This will establish EPM_ORACLE_HOME, EPM_ORACLE_INSTANCE
+# MWHOME, LD_LIBRARY_PATH, HYPERION_HOME (same as EPM_ORACLE_HOME, appears to be a historical hack), and TNS_ADMIN
 
-/home/oracle/Oracle/Middleware/user_projects/epmsystem1/bin/start.sh
+echo Calling EPM start script
+$USER_PROJECTS/epmsystem1/bin/start.sh
 
-export PATH="$PATH:/home/oracle/Oracle/Middleware/user_projects/epmsystem1/EssbaseServer/essbaseserver1/bin"
-
-echo "Loading sample databases in the background..."
+echo Loading sample databases in the background...
 startMaxl.sh load-sample-databases.msh &
 
-tail -F /u0/Oracle/Middleware/user_projects/domains/EPMSystem/servers/EPMServer0/logs/apsserver.log
+echo Starting tail call on all .log files in logs folder
+tail -F $USER_PROJECTS/domains/EPMSystem/servers/EPMServer0/logs/*.log
