@@ -1,4 +1,7 @@
+ARG ORACLE_ROOT_DEFAULT=/opt/Oracle
+
 FROM centos:6.9 as media
+ARG ORACLE_ROOT_DEFAULT
 
 RUN touch /var/lib/rpm/* && yum -y install unzip
 
@@ -9,7 +12,7 @@ RUN groupadd -f dba && \
     groupadd -f oinstall && \
     useradd -G dba oracle
 
-ENV ORACLE_ROOT /opt/Oracle
+ENV ORACLE_ROOT $ORACLE_ROOT_DEFAULT
 
 RUN mkdir -p $ORACLE_ROOT && chown oracle:dba $ORACLE_ROOT
 
@@ -56,7 +59,9 @@ RUN rm -rf $ORACLE_ROOT/Middleware/oracle_common/OPatch/Patches/*
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/JRE/Sun/1.6.0 && \
     ln -s  $ORACLE_ROOT/Middleware/jdk160_35/jre $ORACLE_ROOT/Middleware/EPMSystem11R1/common/JRE/Sun/1.6.0
 
+
 FROM centos:6.9
+ARG ORACLE_ROOT_DEFAULT
 
 LABEL maintainer="jason@appliedolap.com"
 
@@ -84,7 +89,7 @@ RUN groupadd -f dba && \
     groupadd -f oinstall && \
     useradd -G dba oracle
 
-ENV ORACLE_ROOT /opt/Oracle
+ENV ORACLE_ROOT $ORACLE_ROOT_DEFAULT
 RUN mkdir -p $ORACLE_ROOT && chown oracle:dba $ORACLE_ROOT
 
 WORKDIR /home/oracle
