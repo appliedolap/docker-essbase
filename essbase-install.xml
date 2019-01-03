@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <HyperionInstall>
-  <HyperionHome>/home/oracle/Oracle/Middleware</HyperionHome>
+  <HyperionHome>__ORACLE_ROOT__/Middleware</HyperionHome>
   <UserLocale>en_US</UserLocale>
   <ActionType>0</ActionType>
   <SelectedProducts>

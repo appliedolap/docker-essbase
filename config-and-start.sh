@@ -4,6 +4,9 @@ set -e
 set -u
 set -o pipefail
 
+ln -s $EPM_ORACLE_INSTANCE/import_export $HOME/import_export
+ln -s $EPM_ORACLE_INSTANCE/EssbaseServer/essbaseserver1/app $HOME/app
+
 sleep 30
 
 javac SimpleJdbcRunner.java
@@ -18,7 +21,10 @@ java -cp .:./jtds12.jar SimpleJdbcRunner \
 # Make sure that the refernce to both of these (or at least the configtool.sh call) are absolute paths
 # as otherwise the exec/fork calls inside will fail
 
-sed -i "s/__EPM_PASSWORD__/$EPM_PASSWORD/g" $HOME/essbase-config.xml  
+sed -i \
+    -e "s/__EPM_PASSWORD__/$EPM_PASSWORD/g" \
+    -e "s|__ORACLE_ROOT__|$ORACLE_ROOT|g" \
+    $HOME/essbase-config.xml  
 
 $EPM_ORACLE_HOME/common/config/11.1.2.0/configtool.sh -silent $HOME/essbase-config.xml
 
