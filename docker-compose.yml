@@ -24,7 +24,7 @@ services:
         hard: 32000
         soft: 10000
     environment:
-      foo: bar
+      EPM_PASSWORD: password2
 
  
 

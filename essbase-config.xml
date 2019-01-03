@@ -47,7 +47,7 @@
       </bean>
       <bean name="customConfiguration">
         <property name="AdminEmail"/>
-        <property name="adminPassword">ZkbJjvOM+oYl1HowGUI5Tvz0yPKqn86YkS9dxvsjrXzvUadouTZ6tFK3F82Tkw6G</property>
+	<property name="adminPassword">__EPM_PASSWORD__</property>
         <property name="adminUserName">admin</property>
         <property name="common_lwa_set">false</property>
         <property name="enable_SMTPServer_Authentication">false</property>

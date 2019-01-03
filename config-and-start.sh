@@ -17,7 +17,10 @@ java -cp .:./jtds12.jar SimpleJdbcRunner \
 
 # Make sure that the refernce to both of these (or at least the configtool.sh call) are absolute paths
 # as otherwise the exec/fork calls inside will fail
-$EPM_ORACLE_HOME/common/config/11.1.2.0/configtool.sh -silent /home/oracle/essbase-config.xml
+
+sed -i "s/__EPM_PASSWORD__/$EPM_PASSWORD/g" $HOME/essbase-config.xml  
+
+$EPM_ORACLE_HOME/common/config/11.1.2.0/configtool.sh -silent $HOME/essbase-config.xml
 
 # Brings in EPM_ORACLE_HOME, MWHOME, LD_LIBRARY_PATH (although this gets modified later in this script),
 # HYPERION_HOME, and TNS_ADMIN. Must have run the config step prior to this as it is what

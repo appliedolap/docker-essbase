@@ -1,7 +1,7 @@
 /* invoked with startMaxl.sh */
 
 
-login "admin" "password1" on "localhost";
+login "admin" "$EPM_PASSWORD" on "localhost";
 
 import database "Sample"."Basic" data 
 	from server data_file "Calcdat" 

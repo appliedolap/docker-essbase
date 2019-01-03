@@ -91,6 +91,7 @@ ENV PATH="${JAVA_HOME}/bin:${EPM_ORACLE_INSTANCE}/EssbaseServer/essbaseserver1/b
 ENV EPM_ORACLE_HOME /home/oracle/Oracle/Middleware/EPMSystem11R1
 ENV USER_PROJECTS /home/oracle/Oracle/Middleware/user_projects
 ENV TMP /tmp
+ENV EPM_PASSWORD password2
 
 USER oracle 
 
