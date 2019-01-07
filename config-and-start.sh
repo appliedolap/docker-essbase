@@ -6,6 +6,7 @@ set -o pipefail
 
 ln -s $EPM_ORACLE_INSTANCE/import_export $HOME/import_export
 ln -s $EPM_ORACLE_INSTANCE/EssbaseServer/essbaseserver1/app $HOME/app
+ln -s $USER_PROJECTS/domains/EPMSystem/bin/startWebLogic.sh $HOME/startWebLogicAdminConsole.sh
 
 sleep 30
 
@@ -22,6 +23,7 @@ java -cp .:./jtds12.jar SimpleJdbcRunner \
 # as otherwise the exec/fork calls inside will fail
 
 sed -i \
+    -e "s/__EPM_ADMIN__/$EPM_ADMIN/g" \
     -e "s/__EPM_PASSWORD__/$EPM_PASSWORD/g" \
     -e "s|__ORACLE_ROOT__|$ORACLE_ROOT|g" \
     $HOME/essbase-config.xml  
@@ -54,6 +56,16 @@ $USER_PROJECTS/epmsystem1/bin/start.sh
 
 echo Loading sample databases in the background...
 startMaxl.sh load-sample-databases.msh &
+
+echo Checking to autostart the admin console
+if [ "$AUTO_START_ADMIN_CONSOLE" = "true" ]; then
+    echo Starting the admin console in the background...
+    $HOME/startWebLogicAdminConsole.sh &    
+fi
+
+# LCM auto import:
+# sed -i -e "s|<User.*|<User name=\"admin\" password=\"$EPM_PASSWORD\"/>|" Import.xml 
+
 
 echo Starting tail call on all .log files in logs folder
 tail -F $USER_PROJECTS/domains/EPMSystem/servers/EPMServer0/logs/*.log

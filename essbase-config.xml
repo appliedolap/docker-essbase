@@ -14,10 +14,10 @@
     <bean name="main">
       <bean name="applicationServerDeployment">
         <bean name="WebLogic 10">
-          <property name="adminHost">3b1a0423522b</property>
-          <property name="adminPassword">W+L8ojMkLlhf2HzrxzTkp1Ze3Wmax/7NQmOT9VLnwV5gEtCxPXMcasXw+esAKiO4</property>
+          <property name="adminHost">127.0.0.1</property>
+          <property name="adminPassword">__EPM_PASSWORD__</property>
           <property name="adminPort">7001</property>
-          <property name="adminUser">epm_admin</property>
+          <property name="adminUser">__EPM_ADMIN__</property>
           <beanList name="applications">
             <listItem>
               <bean>
@@ -38,7 +38,7 @@
               </bean>
             </listItem>
           </beanList>
-          <property name="BEA_HOME">__ORACLE_HOME__/Middleware</property>
+          <property name="BEA_HOME">__ORACLE_ROOT__/Middleware</property>
           <property name="domainName">EPMSystem</property>
           <property name="manualProcessing">false</property>
           <property name="remoteDeployment">false</property>
@@ -48,7 +48,7 @@
       <bean name="customConfiguration">
         <property name="AdminEmail"/>
 	<property name="adminPassword">__EPM_PASSWORD__</property>
-        <property name="adminUserName">admin</property>
+        <property name="adminUserName">__EPM_ADMIN__</property>
         <property name="common_lwa_set">false</property>
         <property name="enable_SMTPServer_Authentication">false</property>
         <property name="enable_ssl">false</property>
@@ -109,10 +109,10 @@
     <bean name="main">
       <bean name="applicationServerDeployment">
         <bean name="WebLogic 10">
-          <property name="adminHost">3b1a0423522b</property>
-          <property name="adminPassword">aHtcbsDScpZNPRrgVLOfc8/EZJu04sRZnsxyfn+MmDF5Xj88JANQ2PJNOGgfoZjE</property>
+          <property name="adminHost">127.0.0.1</property>
+          <property name="adminPassword">__EPM_PASSWORD__</property>
           <property name="adminPort">7001</property>
-          <property name="adminUser">epm_admin</property>
+          <property name="adminUser">__EPM_ADMIN__</property>
           <beanList name="applications">
             <listItem>
               <bean>
@@ -157,10 +157,10 @@
     <bean name="main">
       <bean name="applicationServerDeployment">
         <bean name="WebLogic 10">
-          <property name="adminHost">3b1a0423522b</property>
-          <property name="adminPassword">svdDgfyktQRxHCCBxJ/wJNcvy9vsaFmnFwUOhfbr6ECfIMtIjwnNj9Vwdmq9JWTI</property>
+          <property name="adminHost">127.0.0.1</property>
+	  <property name="adminPassword">__EPM_PASSWORD__</property>
           <property name="adminPort">7001</property>
-          <property name="adminUser">epm_admin</property>
+          <property name="adminUser">__EPM_ADMIN__</property>
           <beanList name="applications">
             <listItem>
               <bean>
@@ -181,11 +181,11 @@
               </bean>
             </listItem>
           </beanList>
-          <property name="BEA_HOME">__ORACLE_HOME__/Middleware</property>
+          <property name="BEA_HOME">__ORACLE_ROOT__/Middleware</property>
           <property name="domainName">EPMSystem</property>
           <property name="manualProcessing">false</property>
           <property name="remoteDeployment">false</property>
-          <property name="serverLocation">__ORACLE_HOME__/Middleware/wlserver_10.3</property>
+          <property name="serverLocation">__ORACLE_ROOT__/Middleware/wlserver_10.3</property>
         </bean>
       </bean>
       <bean name="lwaConfiguration">
@@ -201,7 +201,7 @@
           <property name="dbTableTbsp"/>
           <property name="encrypted">true</property>
           <property name="host">db</property>
-          <property name="jdbcUrl">jdbc:weblogic:sqlserver://db:1433;databaseName=EPM_EAS;loadLibraryPath=__ORACLE_HOME__/Middleware/wlserver_10.3/server/lib</property>
+          <property name="jdbcUrl">jdbc:weblogic:sqlserver://db:1433;databaseName=EPM_EAS;loadLibraryPath=__ORACLE_ROOT__/Middleware/wlserver_10.3/server/lib</property>
           <property name="password">IMl5r8o0rP4GjzVNTca7s42DRZ7Hx5fJEnJKWl/VbL38G7vHfTfKDd/dVnhxLmaO</property>
           <property name="port">1433</property>
           <property name="SSL_ENABLED">false</property>
@@ -249,10 +249,10 @@
     <bean name="main">
       <bean name="applicationServerDeployment">
         <bean name="WebLogic 10">
-          <property name="adminHost">3b1a0423522b</property>
-          <property name="adminPassword">BBMdlCA5PRDi31E6O3As3VGL000Rv72fgaPFroUAFC87A2HCO0wpmmujgEb1J7su</property>
+          <property name="adminHost">127.0.0.1</property>
+          <property name="adminPassword">__EPM_PASSWORD__</property>
           <property name="adminPort">7001</property>
-          <property name="adminUser">epm_admin</property>
+          <property name="adminUser">__EPM_ADMIN__</property>
           <beanList name="applications">
             <listItem>
               <bean>
@@ -273,11 +273,11 @@
               </bean>
             </listItem>
           </beanList>
-          <property name="BEA_HOME">__ORACLE_HOME__/Middleware</property>
+	  <property name="BEA_HOME">__ORACLE_ROOT__/Middleware</property>
           <property name="domainName">EPMSystem</property>
           <property name="manualProcessing">false</property>
           <property name="remoteDeployment">false</property>
-          <property name="serverLocation">__ORACLE_HOME__/Middleware/wlserver_10.3</property>
+          <property name="serverLocation">__ORACLE_ROOT__/Middleware/wlserver_10.3</property>
         </bean>
       </bean>
       <bean name="httpServerConfiguration">

@@ -97,6 +97,9 @@ WORKDIR /home/oracle
 # Other folders from install: bea, oraInventory
 COPY --from=media --chown=oracle:dba $ORACLE_ROOT $ORACLE_ROOT
 COPY --chown=oracle:dba SimpleJdbcRunner.java config-and-start.sh jtds12.jar essbase-config.xml load-sample-databases.msh ./
+COPY --chown=oracle:dba landing ./landing
+
+RUN mkdir -p init-data && chown oracle:oracle init-data
 
 # Oddly enough, everything seemed to work fine when JAVA_HOME was invalid. Hmm.
 ENV JAVA_HOME $ORACLE_ROOT/Middleware/jdk160_35
@@ -107,9 +110,16 @@ ENV PATH="${JAVA_HOME}/bin:${EPM_ORACLE_INSTANCE}/EssbaseServer/essbaseserver1/b
 ENV EPM_ORACLE_HOME $ORACLE_ROOT/Middleware/EPMSystem11R1
 ENV USER_PROJECTS $ORACLE_ROOT/Middleware/user_projects
 ENV TMP /tmp
-ENV EPM_PASSWORD password2
-ENV LCM $USER_PROJECTS/epmsystem1/bin/Utility.sh
+ENV EPM_ADMIN admin
+ENV EPM_PASSWORD password1
+
+ENV LCM_CMD $USER_PROJECTS/epmsystem1/bin/Utility.sh
+ENV WL_CMD ="java -cp $ORACLE_ROOT/Middleware/wlserver_10.3/server/lib/weblogic.jar weblogic.Deployer -adminurl t3://127.0.0.1:7001 -user $EPM_ADMIN -password $EPM_PASSWORD"
+
+ENV AUTO_START_ADMIN_CONSOLE false
 
 USER oracle 
+
+EXPOSE 9000 
 
 CMD ["./config-and-start.sh"]
