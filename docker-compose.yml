@@ -33,6 +33,7 @@ services:
       # There are some password requirements for various components; don't attempt to just set "password" here -- 
       # it'll cause configuration to fail
       EPM_PASSWORD: password1
+      NO_CONFIG: "false"
 
       #volumes:
       #  init-data: 

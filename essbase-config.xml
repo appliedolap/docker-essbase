@@ -51,7 +51,7 @@
         <property name="adminUserName">__EPM_ADMIN__</property>
         <property name="common_lwa_set">false</property>
         <property name="enable_SMTPServer_Authentication">false</property>
-        <property name="enable_ssl">false</property>
+        <property name="enable_ssl">true</property>
         <property name="enableSslOffloading">false</property>
         <property name="externalUrlHost"/>
         <property name="externalUrlPort"/>
@@ -68,12 +68,12 @@
       </bean>
       <bean name="httpServerConfiguration">
         <property name="displayVersion">10.3.6</property>
-        <property name="port">9000</property>
-        <property name="protocol">http</property>
+        <property name="port">9443</property>
+        <property name="protocol">https</property>
         <bean name="Proxy">
           <property name="path"/>
-          <property name="port">9000</property>
-          <property name="useSSL">false</property>
+          <property name="port">9443</property>
+          <property name="useSSL">true</property>
         </bean>
         <property name="sharedLocation">use_local_instance</property>
       </bean>
