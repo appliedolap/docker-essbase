@@ -28,6 +28,11 @@ sed -i \
     -e "s|__ORACLE_ROOT__|$ORACLE_ROOT|g" \
     $HOME/essbase-config.xml  
 
+if [ "$NO_CONFIG" = "true" ]; then
+    echo Skipping config
+    tail -F /dev/null
+fi
+
 $EPM_ORACLE_HOME/common/config/11.1.2.0/configtool.sh -silent $HOME/essbase-config.xml
 
 # Brings in EPM_ORACLE_HOME, MWHOME, LD_LIBRARY_PATH (although this gets modified later in this script),
