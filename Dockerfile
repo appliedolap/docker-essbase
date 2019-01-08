@@ -47,11 +47,13 @@ RUN rm -rf $ORACLE_ROOT/Middleware/jrockit_160_37
 RUN rm -rf $ORACLE_ROOT/Middleware/jrockit_160_37
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/products/Essbase/aps/util
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC/*
+RUN rm -rf $ORACLE_ROOT/Middleware/oracle_common/jdk/jre/lib/fonts/*
+RUN rm -rf $ORACLE_ROOT/Middleware/oracle_common/doc/*
 #RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/*
-#RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/essbase-studio-sdk/*
+RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/essbase-studio-sdk/*
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/epmstatic/webanalysis/*
-#RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/docs/*
-#RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/hfm/*
+RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/docs/*
+RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/hfm/*
 #RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/planning/*
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/products/Essbase/EssbaseServer-32/*
 RUN rm -rf $ORACLE_ROOT/Middleware/oracle_common/OPatch/Patches/*
@@ -117,6 +119,10 @@ ENV LCM_CMD $USER_PROJECTS/epmsystem1/bin/Utility.sh
 ENV WL_CMD ="java -cp $ORACLE_ROOT/Middleware/wlserver_10.3/server/lib/weblogic.jar weblogic.Deployer -adminurl t3://127.0.0.1:7001 -user $EPM_ADMIN -password $EPM_PASSWORD"
 
 ENV AUTO_START_ADMIN_CONSOLE false
+
+# cat welcome.txt
+RUN echo echo Welcome foo bar baz >> /home/oracle/.bashrc
+
 
 USER oracle 
 
