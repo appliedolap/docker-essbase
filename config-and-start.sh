@@ -10,6 +10,8 @@ ln -s $USER_PROJECTS/domains/EPMSystem/bin/startWebLogic.sh $HOME/startWebLogicA
 
 sleep 30
 
+java -version
+
 javac SimpleJdbcRunner.java
 
 java -cp .:./jtds12.jar SimpleJdbcRunner \

@@ -25,6 +25,7 @@ COPY Foundation-11124-linux64-Part2.zip .
 COPY Foundation-11124-linux64-Part4.zip .
 COPY Foundation-11124-Part3.zip .
 COPY Essbase-11124-linux64.zip .
+COPY jdk-7u80-linux-x64.tar.gz .
 
 RUN mkdir -p extracted && \
     unzip -o Foundation-11124-linux64-Part1.zip -d extracted && \
@@ -44,12 +45,23 @@ RUN sed -i "s|__ORACLE_ROOT__|$ORACLE_ROOT|g" $HOME/essbase-install.xml && \
     $HOME/extracted/installTool.sh -silent $HOME/essbase-install.xml
 
 RUN rm -rf $ORACLE_ROOT/Middleware/jrockit_160_37
-RUN rm -rf $ORACLE_ROOT/Middleware/jrockit_160_37
+RUN rm -rf $ORACLE_ROOT/Middleware/jdk160_35
+
+# jdk1.7.0_80
+RUN tar zxvf jdk-7u80-linux-x64.tar.gz -C $ORACLE_ROOT/Middleware && \
+    ln -s $ORACLE_ROOT/Middleware/jdk1.7.0_80 $ORACLE_ROOT/Middleware/jdk160_35
+
+#RUN rm -rf $ORACLE_ROOT/Middleware/jdk160_35/src.zip && \
+#    rm -rf $ORACLE_ROOT/Middleware/jdk160_35/utl && \
+#    rm -rf $ORACLE_ROOT/Middleware/jdk160_35/nginstall
+
+
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/products/Essbase/aps/util
+# At one point I also tried taking out ODBC-64 but I think it may have caused a failure in install/config, as
+# apparently a symlink is made to the odbc.ini file
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC/*
 RUN rm -rf $ORACLE_ROOT/Middleware/oracle_common/jdk/jre/lib/fonts/*
 RUN rm -rf $ORACLE_ROOT/Middleware/oracle_common/doc/*
-#RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/*
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/essbase-studio-sdk/*
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/epmstatic/webanalysis/*
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/docs/*
@@ -58,8 +70,8 @@ RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/hfm/*
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/products/Essbase/EssbaseServer-32/*
 RUN rm -rf $ORACLE_ROOT/Middleware/oracle_common/OPatch/Patches/*
 
-RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/JRE/Sun/1.6.0 && \
-    ln -s  $ORACLE_ROOT/Middleware/jdk160_35/jre $ORACLE_ROOT/Middleware/EPMSystem11R1/common/JRE/Sun/1.6.0
+RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/JRE/Sun/1.6.0 
+#    ln -s  $ORACLE_ROOT/Middleware/jdk160_35/jre $ORACLE_ROOT/Middleware/EPMSystem11R1/common/JRE/Sun/1.6.0
 
 
 FROM centos:6.9
@@ -98,14 +110,24 @@ WORKDIR /home/oracle
 
 # Other folders from install: bea, oraInventory
 COPY --from=media --chown=oracle:dba $ORACLE_ROOT $ORACLE_ROOT
-COPY --chown=oracle:dba SimpleJdbcRunner.java config-and-start.sh jtds12.jar essbase-config.xml load-sample-databases.msh ./
+COPY --chown=oracle:dba SimpleJdbcRunner.java config-and-start.sh jtds12.jar essbase-config.xml load-sample-databases.msh welcome.sh ./
 COPY --chown=oracle:dba landing ./landing
 
 RUN mkdir -p init-data && chown oracle:oracle init-data
 
 # Oddly enough, everything seemed to work fine when JAVA_HOME was invalid. Hmm.
+# The usage of the UnlockCommercialFeatures option is as per Oracle support document 2351499.1.
+# It is used SPECIFICALLY when Java 1.7 is in play. If an older version of Java is used,
+# the option wiill be unrecognized and cause startup to fail
+# 
+# Note that at present the seeming JDK 1.6 reference is actually a symlink to a 1.7 install
+# (also per one of the options for migrating that the support doc gives, although I believe it
+# would be possible to simply reference whichever folder is desired as there shouldn't be 
+# any references to 1.6 littered in various files, given how this Docker image is constructed
+
 ENV JAVA_HOME $ORACLE_ROOT/Middleware/jdk160_35
 ENV JAVA_VENDOR Sun
+ENV JAVA_OPTIONS -XX:+UnlockCommercialFeatures
 
 ENV EPM_ORACLE_INSTANCE $ORACLE_ROOT/Middleware/user_projects/epmsystem1
 ENV PATH="${JAVA_HOME}/bin:${EPM_ORACLE_INSTANCE}/EssbaseServer/essbaseserver1/bin:${PATH}"
@@ -120,9 +142,7 @@ ENV WL_CMD ="java -cp $ORACLE_ROOT/Middleware/wlserver_10.3/server/lib/weblogic.
 
 ENV AUTO_START_ADMIN_CONSOLE false
 
-# cat welcome.txt
-RUN echo echo Welcome foo bar baz >> /home/oracle/.bashrc
-
+RUN echo source welcome.sh  >> /home/oracle/.bashrc
 
 USER oracle 
 
