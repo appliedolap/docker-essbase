@@ -17,9 +17,9 @@ services:
     image: appliedolap/essbase:11.1.2.4
     container_name: essbase
     ports:
-      - "7001"
-      - "9000"
-      - "9443"
+      - "7001:7001"
+      - "9000:9000"
+      - "9443:9443"
       #- "1423"
       #- "32768-33768"
     ulimits:
@@ -32,8 +32,7 @@ services:
       # it'll cause configuration to fail
       # EPM_ADMIN: admin
       EPM_PASSWORD: password1
+      SQL_HOST: db
       SQL_USER: sa
       SQL_PASSWORD: AAbb11##
-      SQL_HOST: db
-      NO_CONFIG: "false"
 

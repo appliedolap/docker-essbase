@@ -2,6 +2,20 @@
 
 A composed Essbase Docker image with a minimal Essbase installation backed by a Microsoft SQL Server on Linux repository.
 
+## Quick Start: Running an Existing Image with a Custom SQL Repository
+
+This assumes that the image is built and available in your repository:
+
+```
+docker run -it -e SQL_HOST=docker1 -e SQL_USER=sa -e "SQL_PASSWORD=AAbb11##" appliedolap/essbase:11.1.2.4
+```
+
+Run the container and use the host machine's SQL Server as the backend for the repository:
+
+```
+docker run -it -e SQL_HOST=host.docker.internal -e SQL_USER=sa -e "SQL_PASSWORD=AAbb11##" appliedolap/essbase:11.1.2.4
+```
+
 ## How to build the image
 
 You need to supply the installation media for the 64-bit Linux version of Essbase. Specifically, you should have these files:

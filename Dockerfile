@@ -147,6 +147,7 @@ ENV SQL_USER sa
 ENV SQL_PASSWORD password
 
 ENV AUTO_START_ADMIN_CONSOLE false
+ENV NO_CONFIG false
 
 RUN echo source welcome.sh  >> /home/oracle/.bashrc
 
