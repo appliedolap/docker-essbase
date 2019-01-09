@@ -6,9 +6,8 @@ services:
       - "1433:1433"
     environment:
       ACCEPT_EULA: Y
-      # note that password only has one dollar sign -- two here actually denotes
-      # one since a single dollar sign would otherwise indicate variable interpolation
-      SA_PASSWORD: ABcd12#$$
+      # careful with passwords containing $ -- use $$ to indicate single $
+      SA_PASSWORD: AAbb11##
       MSSQL_PID: Express
 
   essbase:
@@ -33,5 +32,8 @@ services:
       # it'll cause configuration to fail
       # EPM_ADMIN: admin
       EPM_PASSWORD: password1
+      SQL_USER: sa
+      SQL_PASSWORD: AAbb11##
+      SQL_HOST: db
       NO_CONFIG: "false"
 

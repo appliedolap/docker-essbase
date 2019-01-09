@@ -4,8 +4,7 @@ set -e
 set -u
 set -o pipefail
 
-echo Waiting 30s to make sure that relational databases are online
-sleep 30
+echo Starting up Essbase container, checking if configuration is needed
 
 java -version
 
@@ -20,9 +19,9 @@ if [ ! -f ".hasBeenConfigured" ]; then
 
     java -cp .:./jtds12.jar SimpleJdbcRunner \
     -driver net.sourceforge.jtds.jdbc.Driver \
-    -url jdbc:jtds:sqlserver://db \
+    -url jdbc:jtds:sqlserver://$SQL_HOST \
     -username sa \
-    -password 'ABcd12#$' \
+    -password "$SQL_PASSWORD" \
     -query "DROP DATABASE IF EXISTS EPM_HSS, EPM_EAS;CREATE DATABASE EPM_HSS;CREATE DATABASE EPM_EAS"
 
     # Make sure that the refernce to both of these (or at least the configtool.sh call) are absolute paths
@@ -31,12 +30,15 @@ if [ ! -f ".hasBeenConfigured" ]; then
     sed -i \
     -e "s/__EPM_ADMIN__/$EPM_ADMIN/g" \
     -e "s/__EPM_PASSWORD__/$EPM_PASSWORD/g" \
+    -e "s/__SQL_HOST__/$SQL_HOST/g" \
+    -e "s/__SQL_USER__/$SQL_USER/g" \
+    -e "s/__SQL_PASSWORD__/$SQL_PASSWORD/g" \
     -e "s|__ORACLE_ROOT__|$ORACLE_ROOT|g" \
     $HOME/essbase-config.xml  
 
     if [ "$NO_CONFIG" = "true" ]; then
-    echo Skipping config
-    tail -F /dev/null
+        echo Skipping config
+        tail -F /dev/null
     fi
 
     $EPM_ORACLE_HOME/common/config/11.1.2.0/configtool.sh -silent $HOME/essbase-config.xml

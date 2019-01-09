@@ -88,13 +88,13 @@
           <property name="dbIndexTbsp"/>
           <property name="dbName">EPM_HSS</property>
           <property name="dbTableTbsp"/>
-          <property name="encrypted">true</property>
-          <property name="host">db</property>
-          <property name="jdbcUrl">jdbc:weblogic:sqlserver://db:1433;databaseName=EPM_HSS</property>
-          <property name="password">AuJLrGpDQIFaudJMutm5pyYEfiJ5fb0vn4TFgEh6F6RUG8grY7jYzTeo1EwkvX9L</property>
+          <property name="encrypted">false</property>
+          <property name="host">__SQL_HOST__</property>
+          <property name="jdbcUrl">jdbc:weblogic:sqlserver://__SQL_HOST__:1433;databaseName=EPM_HSS</property>
+          <property name="password">__SQL_PASSWORD__</property>
           <property name="port">1433</property>
           <property name="SSL_ENABLED">false</property>
-          <property name="userName">sa</property>
+          <property name="userName">__SQL_USER__</property>
           <property name="VALIDATESERVERCERTIFICATE">true</property>
         </bean>
       </bean>
@@ -199,13 +199,13 @@
           <property name="dbIndexTbsp"/>
           <property name="dbName">EPM_EAS</property>
           <property name="dbTableTbsp"/>
-          <property name="encrypted">true</property>
-          <property name="host">db</property>
-          <property name="jdbcUrl">jdbc:weblogic:sqlserver://db:1433;databaseName=EPM_EAS;loadLibraryPath=__ORACLE_ROOT__/Middleware/wlserver_10.3/server/lib</property>
-          <property name="password">IMl5r8o0rP4GjzVNTca7s42DRZ7Hx5fJEnJKWl/VbL38G7vHfTfKDd/dVnhxLmaO</property>
+          <property name="encrypted">false</property>
+          <property name="host">__SQL_HOST__</property>
+          <property name="jdbcUrl">jdbc:weblogic:sqlserver://__SQL_HOST__:1433;databaseName=EPM_EAS;loadLibraryPath=__ORACLE_ROOT__/Middleware/wlserver_10.3/server/lib</property>
+          <property name="password">__SQL_PASSWORD__</property>
           <property name="port">1433</property>
           <property name="SSL_ENABLED">false</property>
-          <property name="userName">sa</property>
+          <property name="userName">__SQL_USER__</property>
           <property name="VALIDATESERVERCERTIFICATE">false</property>
         </bean>
       </bean>

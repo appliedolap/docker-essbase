@@ -140,6 +140,12 @@ ENV EPM_PASSWORD password1
 ENV LCM_CMD $USER_PROJECTS/epmsystem1/bin/Utility.sh
 ENV WL_CMD ="java -cp $ORACLE_ROOT/Middleware/wlserver_10.3/server/lib/weblogic.jar weblogic.Deployer -adminurl t3://127.0.0.1:7001 -user $EPM_ADMIN -password $EPM_PASSWORD"
 
+ENV SQL_HOST db
+ENV SQL_USER sa
+
+# You'll almost definitely need to set a real value here
+ENV SQL_PASSWORD password
+
 ENV AUTO_START_ADMIN_CONSOLE false
 
 RUN echo source welcome.sh  >> /home/oracle/.bashrc
