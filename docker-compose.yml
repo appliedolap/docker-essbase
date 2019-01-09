@@ -15,26 +15,23 @@ services:
     depends_on: 
       - db
     build: .
+    image: appliedolap/essbase:11.1.2.4
+    container_name: essbase
     ports:
-      - "7001:7001"
-      - "9000:9000"
-      - "9443:9443"
-    #stdin_open: true
-    #tty: true
+      - "7001"
+      - "9000"
+      - "9443"
+      #- "1423"
+      #- "32768-33768"
     ulimits:
       nofile:
         hard: 32000
         soft: 10000
-        #    volumes:
-        # - init-data:/home/oracle/init-data
 
     environment:
-            #EPM_USER: admin
       # There are some password requirements for various components; don't attempt to just set "password" here -- 
       # it'll cause configuration to fail
+      # EPM_ADMIN: admin
       EPM_PASSWORD: password1
       NO_CONFIG: "false"
-
-      #volumes:
-      #  init-data: 
 
