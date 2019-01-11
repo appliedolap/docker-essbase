@@ -33,6 +33,8 @@ if [ ! -f ".hasBeenConfigured" ]; then
     -e "s/__SQL_HOST__/$SQL_HOST/g" \
     -e "s/__SQL_USER__/$SQL_USER/g" \
     -e "s/__SQL_PASSWORD__/$SQL_PASSWORD/g" \
+    -e "s/__ESS_START_PORT__/$ESS_START_PORT/g" \
+    -e "s/__ESS_END_PORT__/$ESS_END_PORT/g" \
     -e "s|__ORACLE_ROOT__|$ORACLE_ROOT|g" \
     $HOME/essbase-config.xml  
 

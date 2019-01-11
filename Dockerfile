@@ -137,6 +137,8 @@ ENV TMP /tmp
 ENV EPM_ADMIN admin
 ENV EPM_PASSWORD password1
 
+ENV ESS_START_PORT="32768" ESS_END_PORT="32778"
+
 ENV LCM_CMD $USER_PROJECTS/epmsystem1/bin/Utility.sh
 ENV WL_CMD ="java -cp $ORACLE_ROOT/Middleware/wlserver_10.3/server/lib/weblogic.jar weblogic.Deployer -adminurl t3://127.0.0.1:7001 -user $EPM_ADMIN -password $EPM_PASSWORD"
 
@@ -153,6 +155,6 @@ RUN echo source welcome.sh  >> /home/oracle/.bashrc
 
 USER oracle 
 
-EXPOSE 9000 
+EXPOSE 9000 1423 $ESS_START_PORT-$ESS_END_PORT 7001
 
 CMD ["./config-and-start.sh"]

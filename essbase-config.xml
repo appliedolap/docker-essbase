@@ -229,14 +229,14 @@
         <property name="component.name">essbaseserver1</property>
         <property name="EnableClearMode">true</property>
         <property name="EnableSecureMode">false</property>
-        <property name="EndPort">33768</property>
+        <property name="EndPort">__ESS_END_PORT__</property>
         <property name="InstanceName">Essbase1</property>
         <property name="LangSelect">English_UnitedStates.Latin1@Binary</property>
         <property name="password">41JS7FLl71HM8QeIikYgIg==</property>
         <property name="relativePaths"/>
         <property name="relativePathsInstance">AppDirectory</property>
         <property name="service">hypservice</property>
-        <property name="StartPort">32768</property>
+        <property name="StartPort">__ESS_START_PORT__</property>
         <property name="userID">hypuser</property>
       </bean>
       <property name="shortcutFolderName">Essbase/Essbase Server</property>
