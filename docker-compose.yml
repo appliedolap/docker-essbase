@@ -20,8 +20,8 @@ services:
       - "7001:7001"
       - "9000:9000"
       - "9443:9443"
-      #- "1423"
-      #- "32768-33768"
+      - "1423:1423"
+      - "32768-32778:32768-32778"
     ulimits:
       nofile:
         hard: 32000
@@ -35,4 +35,4 @@ services:
       SQL_HOST: db
       SQL_USER: sa
       SQL_PASSWORD: AAbb11##
-
+      #    hostname: docker1
