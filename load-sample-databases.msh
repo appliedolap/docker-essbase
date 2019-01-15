@@ -1,6 +1,5 @@
 /* invoked with startMaxl.sh */
 
-
 login "$EPM_ADMIN" "$EPM_PASSWORD" on "localhost";
 
 import database "Sample"."Basic" data 
@@ -9,7 +8,6 @@ import database "Sample"."Basic" data
 
 execute calculation default 
 	on "Sample"."Basic";
-	
 	
 import database "Demo"."Basic" data 
 	from server data_file "Data" 

@@ -74,6 +74,7 @@ if [ ! -f ".hasBeenConfigured" ]; then
     $USER_PROJECTS/epmsystem1/bin/start.sh
 
     echo Loading sample databases in the background...
+    bunzip2 $USER_PROJECTS/epmsystem1/EssbaseServer/essbaseserver1/app/ASOsamp/Sample/dataload.txt.bz2
     startMaxl.sh load-sample-databases.msh &
 
     echo Checking to autostart the admin console

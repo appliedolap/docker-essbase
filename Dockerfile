@@ -74,7 +74,11 @@ RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/products/Essbase/aps/util && \
     rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/JRE/Sun/1.6.0 && \
     rm -rf $ORACLE_ROOT/Middleware/jdk160_35/src.zip && \
     rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC/* && \
-    rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/products/Essbase/EssbaseServer/app/DMDemo
+    rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/products/Essbase/EssbaseServer/app/{DMDemo,Sampeast,Samppart} && \
+    rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/Merant/7.1/lib/{ARase27r,ARdb227,ARhive27,ARimpala27,ARora27r,ARpsql27,ARsyiq27,libARmback,ARase27,ARgplm27r,ARifcl27r,ARmysql27,ARora27,ARsfrc27,libARmbackw,ARdb227r,ARgplm27,ARifcl27,ARoe27,ARpsql27r,libARssl27}.so && \
+    rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/Merant/7.1/{adminhelp,help,bind,java}/* && \
+    bzip2 $ORACLE_ROOT/Middleware/EPMSystem11R1/products/Essbase/EssbaseServer/app/ASOsamp/Sample/dataload.txt
+   
     #rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/* && \
     #mkdir -p $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/Merant/7.1/ && \
     #echo "[ODBC Data Sources]" > $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/Merant/7.1/odbc.ini
