@@ -27,6 +27,9 @@ services:
         hard: 32000
         soft: 10000
 
+    volumes:
+      - ./start_scripts:/home/oracle/start_scripts
+
     environment:
       # There are some password requirements for various components; don't attempt to just set "password" here -- 
       # it'll cause configuration to fail

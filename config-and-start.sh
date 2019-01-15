@@ -43,6 +43,12 @@ if [ ! -f ".hasBeenConfigured" ]; then
         tail -F /dev/null
     fi
 
+    sed -i -e 's|<dump intervalSeconds="10800" maxSizeMBytes="75" enabled="true"/>|<dump intervalSeconds="10800" maxSizeMBytes="75" enabled="false"/>|' \
+        $ORACLE_ROOT/Middleware/oracle_common/modules/oracle.dms_11.1.1/server_config/mbeans/dms_mbeans.xml
+
+    sed -i -e 's|<dump intervalSeconds="10800" maxSizeMBytes="75" enabled="true"/>|<dump intervalSeconds="10800" maxSizeMBytes="75" enabled="false"/>|' \
+        $ORACLE_ROOT/Middleware/oracle_common/modules/oracle.dms_11.1.1/server_config/dms_config.xml
+
     $EPM_ORACLE_HOME/common/config/11.1.2.0/configtool.sh -silent $HOME/essbase-config.xml
 
     # Brings in EPM_ORACLE_HOME, MWHOME, LD_LIBRARY_PATH (although this gets modified later in this script),

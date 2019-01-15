@@ -59,8 +59,10 @@ RUN rm -rf $ORACLE_ROOT/Middleware/jrockit_160_37 && \
 #
 # ln -s  $ORACLE_ROOT/Middleware/jdk160_35/jre $ORACLE_ROOT/Middleware/EPMSystem11R1/common/JRE/Sun/1.6.0
 
+# Configuration does not like the following items being removed:
+#  - $ORACLE_ROOT/Middleware/utils
+
 RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/products/Essbase/aps/util && \
-    rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC/* && \
     rm -rf $ORACLE_ROOT/Middleware/oracle_common/jdk/jre/lib/fonts/* && \
     rm -rf $ORACLE_ROOT/Middleware/oracle_common/doc/* && \
     rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/essbase-studio-sdk/* && \
@@ -71,7 +73,11 @@ RUN rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/products/Essbase/aps/util && \
     rm -rf $ORACLE_ROOT/Middleware/oracle_common/OPatch/Patches/* && \
     rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/JRE/Sun/1.6.0 && \
     rm -rf $ORACLE_ROOT/Middleware/jdk160_35/src.zip && \
-    rm -rf $ORACLE_ROOT/Middleware/utils
+    rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC/* && \
+    rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/products/Essbase/EssbaseServer/app/DMDemo
+    #rm -rf $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/* && \
+    #mkdir -p $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/Merant/7.1/ && \
+    #echo "[ODBC Data Sources]" > $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/Merant/7.1/odbc.ini
 
 FROM centos:6.9
 ARG ORACLE_ROOT_DEFAULT
@@ -96,7 +102,8 @@ libgcc \
 libgcc.i686 \
 compat-libstdc++-33 \
 compat-libstdc++-33.i686 \
-openssh-clients 
+openssh-clients && \
+yum clean all
 
 RUN groupadd -f dba && \
     groupadd -f oinstall && \
