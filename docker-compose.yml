@@ -2,19 +2,18 @@ version: '3'
 services:
   db: 
     image: "microsoft/mssql-server-linux:2017-latest"
-    ports:
-      - "1433:1433"
+    expose:
+      - "1433"
     environment:
       ACCEPT_EULA: Y
-      # careful with passwords containing $ -- use $$ to indicate single $
-      SA_PASSWORD: AAbb11##
+      SA_PASSWORD: ${SQL_PW}
       MSSQL_PID: Express
 
   essbase:
     depends_on: 
       - db
     build: .
-    image: appliedolap/essbase:11.1.2.4
+    image: essbase:11.1.2.4
     container_name: essbase
     ports:
       - "7001:7001"
@@ -34,8 +33,10 @@ services:
       # There are some password requirements for various components; don't attempt to just set "password" here -- 
       # it'll cause configuration to fail
       # EPM_ADMIN: admin
-      EPM_PASSWORD: password1
+      EPM_PASSWORD: ${EPM_PW} 
       SQL_HOST: db
       SQL_USER: sa
-      SQL_PASSWORD: AAbb11##
-      #    hostname: docker1
+      SQL_PASSWORD: ${SQL_PW}
+      RESTART_EPM_AFTER_LCM_IMPORT: "false"
+      AUTO_START_ADMIN_CONSOLE: "false"
+

@@ -73,15 +73,47 @@ if [ ! -f ".hasBeenConfigured" ]; then
     echo Calling EPM start script
     $USER_PROJECTS/epmsystem1/bin/start.sh
 
+    # Look for unzipped LCM import folders (that is, folders in start_scripts that contain an Import.xml file) and import them
+    echo Running LCM imports
+    for directory in start_scripts/*/; do
+        if [ -f $directory/Import.xml ]; then
+            target=/tmp/$(basename $directory)
+            echo "Processing $directory in temporary location $target"
+            cp -R $directory $target
+            sed -i -e "s|<User.*/>|<User name=\"$EPM_ADMIN\" password=\"$EPM_PASSWORD\"/>|" $target/Import.xml
+            $LCM_CMD $target/Import.xml
+        else
+            echo No Import.xml file present in $directory, skipping
+        fi
+    done
+
+    #echo Checking to autostart the admin console
+    #if [ "$AUTO_START_ADMIN_CONSOLE" = "true" ]; then
+    #  echo Starting the admin console in the background...
+    #  $HOME/startWebLogicAdminConsole.sh &    
+    #fi
+
+    if [ "$RESTART_EPM_AFTER_LCM_IMPORT" = "true" ]; then
+	echo Starting WebLogic AdminServer in background and waiting for it to come online before proceeding
+        rm -f .webLogicStartupLog
+        $USER_PROJECTS/domains/EPMSystem/bin/startWebLogic.sh | tee .webLogicStartupLog &
+        until cat .webLogicStartupLog | grep -m 1 "Server started in RUNNING mode"; do sleep 1 ; done
+        
+        echo Stopping EPM services per option so that imported foundational settings can be applied at $(date)
+        #$USER_PROJECTS/epmsystem1/bin/stop.sh
+        $USER_PROJECTS/domains/EPMSystem/bin/stopManagedWebLogic.sh EPMServer0
+
+        echo Stopping EPM
+	$USER_PROJECTS/epmsystem1/bin/stop.sh
+
+        echo Starting EPM services ater imported foundational settings at $(date)
+        $USER_PROJECTS/epmsystem1/bin/start.sh
+    fi    
+
+    echo Main system was configured and brought up in $SECONDS seconds
     echo Loading sample databases in the background...
     bunzip2 $USER_PROJECTS/epmsystem1/EssbaseServer/essbaseserver1/app/ASOsamp/Sample/dataload.txt.bz2
     startMaxl.sh load-sample-databases.msh &
-
-    echo Checking to autostart the admin console
-    if [ "$AUTO_START_ADMIN_CONSOLE" = "true" ]; then
-    echo Starting the admin console in the background...
-    $HOME/startWebLogicAdminConsole.sh &    
-    fi
 
     touch .hasBeenConfigured
 

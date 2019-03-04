@@ -1,0 +1,7 @@
+login "$EPM_ADMIN" "$EPM_PASSWORD" on localhost;
+
+display database all;
+
+logout;
+exit;
+

@@ -20,12 +20,17 @@ USER oracle
 
 WORKDIR /home/oracle
 
+# A version of 7u211 (as part of the standard tar.gz distribution) would result in an extraction folder
+# of something like jdk1.7.0_211
+ENV JDK_VERSION=7u211 \
+    JDK_FOLDER=jdk1.7.0_211
+
 COPY Foundation-11124-linux64-Part1.zip .
 COPY Foundation-11124-linux64-Part2.zip .
 COPY Foundation-11124-linux64-Part4.zip .
 COPY Foundation-11124-Part3.zip .
 COPY Essbase-11124-linux64.zip .
-COPY jdk-7u80-linux-x64.tar.gz .
+COPY jdk-${JDK_VERSION}-linux-x64.tar.gz .
 
 RUN mkdir -p extracted && \
     unzip -o Foundation-11124-linux64-Part1.zip -d extracted && \
@@ -49,8 +54,8 @@ RUN sed -i "s|__ORACLE_ROOT__|$ORACLE_ROOT|g" $HOME/essbase-install.xml && \
 # redundant installer files (!?), src.zip (standard Java source dist), and the /nginstall folder
 RUN rm -rf $ORACLE_ROOT/Middleware/jrockit_160_37 && \
     rm -rf $ORACLE_ROOT/Middleware/jdk160_35 && \
-    tar zxvf jdk-7u80-linux-x64.tar.gz -C $ORACLE_ROOT/Middleware && \
-    ln -s $ORACLE_ROOT/Middleware/jdk1.7.0_80 $ORACLE_ROOT/Middleware/jdk160_35
+    tar zxvf jdk-${JDK_VERSION}-linux-x64.tar.gz -C $ORACLE_ROOT/Middleware && \
+    ln -s $ORACLE_ROOT/Middleware/$JDK_FOLDER $ORACLE_ROOT/Middleware/jdk160_35
 
 # At one point I also tried taking out ODBC-64 but I think it may have caused a failure in install/config, as
 # apparently a symlink is made to the odbc.ini file
@@ -121,7 +126,6 @@ WORKDIR /home/oracle
 # Other folders from install: bea, oraInventory
 COPY --from=media --chown=oracle:dba $ORACLE_ROOT $ORACLE_ROOT
 COPY --chown=oracle:dba SimpleJdbcRunner.java config-and-start.sh jtds12.jar essbase-config.xml load-sample-databases.msh welcome.sh ./
-COPY --chown=oracle:dba landing ./landing
 
 RUN mkdir -p init-data && chown oracle:oracle init-data
 
