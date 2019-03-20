@@ -2,20 +2,6 @@
 
 A composed Essbase Docker image with a minimal Essbase installation backed by a Microsoft SQL Server on Linux repository.
 
-## Quick Start: Running an Existing Image with a Custom SQL Repository
-
-This assumes that the image is built and available in your repository:
-
-```
-docker run -it -e SQL_HOST=docker1 -e SQL_USER=sa -e "SQL_PASSWORD=AAbb11##" appliedolap/essbase:11.1.2.4
-```
-
-Run the container and use the host machine's SQL Server as the backend for the repository:
-
-```
-docker run -it -e SQL_HOST=host.docker.internal -e SQL_USER=sa -e "SQL_PASSWORD=AAbb11##" appliedolap/essbase:11.1.2.4
-```
-
 ## How to build the image
 
 You need to supply the installation media for the 64-bit Linux version of Essbase. Specifically, you should have these files:
@@ -86,7 +72,7 @@ This will open up a bash session on the Essbase container running as user `oracl
 ## Quick Links
 
  * Workspace: http://localhost:9000/workspace/
- * EAS: http://docker1:9000/easconsole/
+ * EAS: http://localhost:9000/easconsole/
 
 You can run EAS over JNLP by running the following command:
 
@@ -268,14 +254,10 @@ The Essbase installer includes files for both 32-bit and 64-bit flavors of Essba
 Even the vanilla EPM installer comes with some built-in OPatch-sets that seem to get applied during the install process, but their files are left behind. They consume a considerable amount of space (`$ORACLE_ROOT/Middleware/oracle_common/OPatch/Patches`).
     
     
-### Other possible removals
+## Running Essbase image only while using SQL Server on your host machine for the EPM repositories:
 
-There are some items that could possibly be removed to whittle away at the image size, but might b less than ideal. For instance:
+Rather than using the SQL Server on Linux database as your EPM repository backend, you may already have SQL Server installed on your local workstation and want to use that instead. You can accomplish this with the following technique, assuming that the image is built and available in your repository:
 
- * The sample apps use a somewhat non-trivial amount of space for their load files, ~120MB
- * Could squeeze a few megs out of user_projects diag logs folder
- * In oracle_common, can possibly remove oui/ (26MB)
- * almost certainly not needed (probably a BI Publisher font): /home/oracle/Oracle/Middleware/oracle_common/jdk/jre/lib/fonts --> 100MB
- * toss RDA (remote diagnostic agent) -> 14MB
- * doc? lol -> 85MB
-
+```
+docker run -it -e SQL_HOST=host.docker.internal -e SQL_USER=sa -e "SQL_PASSWORD=<your sa password>" essbase:11.1.2.4
+```
