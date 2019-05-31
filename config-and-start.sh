@@ -1,10 +1,17 @@
 #!/bin/bash
+#
+#
+# WebLogic command example:
+# WL_CMD="java -cp $ORACLE_ROOT/Middleware/wlserver_10.3/server/lib/weblogic.jar weblogic.Deployer -adminurl t3://127.0.0.1:7001 -user $EPM_ADMIN -password $EPM_PASSWORD" \
+#
 
 set -e
 set -u
 set -o pipefail
 
 echo Starting up Essbase container, checking if configuration is needed
+
+#export PATH="${JAVA_HOME}/bin:${EPM_ORACLE_INSTANCE}/EssbaseServer/essbaseserver1/bin:${PATH}"
 
 java -version
 
@@ -22,7 +29,7 @@ if [ ! -f ".hasBeenConfigured" ]; then
     -url jdbc:jtds:sqlserver://$SQL_HOST \
     -username sa \
     -password "$SQL_PASSWORD" \
-    -query "DROP DATABASE IF EXISTS EPM_HSS, EPM_EAS;CREATE DATABASE EPM_HSS;CREATE DATABASE EPM_EAS"
+    -query "DROP DATABASE IF EXISTS ${SQL_DB_PREFIX}HSS, ${SQL_DB_PREFIX}EAS;CREATE DATABASE ${SQL_DB_PREFIX}HSS;CREATE DATABASE ${SQL_DB_PREFIX}EAS"
 
     # Make sure that the refernce to both of these (or at least the configtool.sh call) are absolute paths
     # as otherwise the exec/fork calls inside will fail
@@ -31,12 +38,22 @@ if [ ! -f ".hasBeenConfigured" ]; then
     -e "s/__EPM_ADMIN__/$EPM_ADMIN/g" \
     -e "s/__EPM_PASSWORD__/$EPM_PASSWORD/g" \
     -e "s/__SQL_HOST__/$SQL_HOST/g" \
+    -e "s/__SQL_DB_PREFIX__/$SQL_DB_PREFIX/g" \
     -e "s/__SQL_USER__/$SQL_USER/g" \
     -e "s/__SQL_PASSWORD__/$SQL_PASSWORD/g" \
     -e "s/__ESS_START_PORT__/$ESS_START_PORT/g" \
     -e "s/__ESS_END_PORT__/$ESS_END_PORT/g" \
     -e "s|__ORACLE_ROOT__|$ORACLE_ROOT|g" \
     $HOME/essbase-config.xml  
+
+    # Update the templatized variables for SQL connection in ODBC settings. This 
+    # enables the usage of the local SQL database inside of a load rule
+    sed \
+    -e "s/__SQL_USER__/$SQL_USER/g" \
+    -e "s/__SQL_PASSWORD__/$SQL_PASSWORD/g" \
+    -e "s/__SQL_DB__/${SQL_DB_PREFIX}HSS/g" \
+    -e "s/__EPM__/$EPM/g" \
+    $HOME/odbc.ini > $EPM/common/ODBC-64/Merant/7.1/odbc.ini    
 
     if [ "$NO_CONFIG" = "true" ]; then
         echo Skipping config
@@ -49,7 +66,7 @@ if [ ! -f ".hasBeenConfigured" ]; then
     sed -i -e 's|<dump intervalSeconds="10800" maxSizeMBytes="75" enabled="true"/>|<dump intervalSeconds="10800" maxSizeMBytes="75" enabled="false"/>|' \
         $ORACLE_ROOT/Middleware/oracle_common/modules/oracle.dms_11.1.1/server_config/dms_config.xml
 
-    $EPM_ORACLE_HOME/common/config/11.1.2.0/configtool.sh -silent $HOME/essbase-config.xml
+    $EPM/common/config/11.1.2.0/configtool.sh -silent $HOME/essbase-config.xml
 
     # Brings in EPM_ORACLE_HOME, MWHOME, LD_LIBRARY_PATH (although this gets modified later in this script),
     # HYPERION_HOME, and TNS_ADMIN. Must have run the config step prior to this as it is what

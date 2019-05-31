@@ -31,7 +31,7 @@ services:
 
     environment:
       # There are some password requirements for various components; don't attempt to just set "password" here -- 
-      # it'll cause configuration to fail
+      # it'll cause configuration to fail because WebLogic requires a stronger password. password1 will work
       # EPM_ADMIN: admin
       EPM_PASSWORD: ${EPM_PW} 
       SQL_HOST: db

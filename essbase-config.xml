@@ -86,11 +86,11 @@
           <property name="createOrReuse">create</property>
           <property name="customURL">false</property>
           <property name="dbIndexTbsp"/>
-          <property name="dbName">EPM_HSS</property>
+          <property name="dbName">__SQL_DB_PREFIX__HSS</property>
           <property name="dbTableTbsp"/>
           <property name="encrypted">false</property>
           <property name="host">__SQL_HOST__</property>
-          <property name="jdbcUrl">jdbc:weblogic:sqlserver://__SQL_HOST__:1433;databaseName=EPM_HSS</property>
+          <property name="jdbcUrl">jdbc:weblogic:sqlserver://__SQL_HOST__:1433;databaseName=__SQL_DB_PREFIX__HSS</property>
           <property name="password">__SQL_PASSWORD__</property>
           <property name="port">1433</property>
           <property name="SSL_ENABLED">false</property>
@@ -197,11 +197,11 @@
           <property name="createOrReuse">create</property>
           <property name="customURL">false</property>
           <property name="dbIndexTbsp"/>
-          <property name="dbName">EPM_EAS</property>
+          <property name="dbName">__SQL_DB_PREFIX__EAS</property>
           <property name="dbTableTbsp"/>
           <property name="encrypted">false</property>
           <property name="host">__SQL_HOST__</property>
-          <property name="jdbcUrl">jdbc:weblogic:sqlserver://__SQL_HOST__:1433;databaseName=EPM_EAS;loadLibraryPath=__ORACLE_ROOT__/Middleware/wlserver_10.3/server/lib</property>
+          <property name="jdbcUrl">jdbc:weblogic:sqlserver://__SQL_HOST__:1433;databaseName=__SQL_DB_PREFIX__EAS;loadLibraryPath=__ORACLE_ROOT__/Middleware/wlserver_10.3/server/lib</property>
           <property name="password">__SQL_PASSWORD__</property>
           <property name="port">1433</property>
           <property name="SSL_ENABLED">false</property>
