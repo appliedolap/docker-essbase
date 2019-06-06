@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <products>
-  <instance>__ORACLE_ROOT__/Middleware/user_projects/epmsystem1</instance>
+  <instance>__MW__/user_projects/epmsystem1</instance>
   <enable_compact_deployment_mode>true</enable_compact_deployment_mode>
   <auto_port_tick>true</auto_port_tick>
   <product productXML="Foundation">
@@ -38,11 +38,11 @@
               </bean>
             </listItem>
           </beanList>
-          <property name="BEA_HOME">__ORACLE_ROOT__/Middleware</property>
+          <property name="BEA_HOME">__MW__</property>
           <property name="domainName">EPMSystem</property>
           <property name="manualProcessing">false</property>
           <property name="remoteDeployment">false</property>
-          <property name="serverLocation">__ORACLE_ROOT__/Middleware/wlserver_10.3</property>
+          <property name="serverLocation">__MW__/wlserver_10.3</property>
         </bean>
       </bean>
       <bean name="customConfiguration">
@@ -133,11 +133,11 @@
               </bean>
             </listItem>
           </beanList>
-          <property name="BEA_HOME">__ORACLE_ROOT__/Middleware</property>
+          <property name="BEA_HOME">__MW__</property>
           <property name="domainName">EPMSystem</property>
           <property name="manualProcessing">false</property>
           <property name="remoteDeployment">false</property>
-          <property name="serverLocation">__ORACLE_ROOT__/Middleware/wlserver_10.3</property>
+          <property name="serverLocation">__MW__/wlserver_10.3</property>
         </bean>
       </bean>
       <bean name="lwaConfiguration">
@@ -181,11 +181,11 @@
               </bean>
             </listItem>
           </beanList>
-          <property name="BEA_HOME">__ORACLE_ROOT__/Middleware</property>
+          <property name="BEA_HOME">__MW__</property>
           <property name="domainName">EPMSystem</property>
           <property name="manualProcessing">false</property>
           <property name="remoteDeployment">false</property>
-          <property name="serverLocation">__ORACLE_ROOT__/Middleware/wlserver_10.3</property>
+          <property name="serverLocation">__MW__/wlserver_10.3</property>
         </bean>
       </bean>
       <bean name="lwaConfiguration">
@@ -201,7 +201,7 @@
           <property name="dbTableTbsp"/>
           <property name="encrypted">false</property>
           <property name="host">__SQL_HOST__</property>
-          <property name="jdbcUrl">jdbc:weblogic:sqlserver://__SQL_HOST__:1433;databaseName=__SQL_DB_PREFIX__EAS;loadLibraryPath=__ORACLE_ROOT__/Middleware/wlserver_10.3/server/lib</property>
+          <property name="jdbcUrl">jdbc:weblogic:sqlserver://__SQL_HOST__:1433;databaseName=__SQL_DB_PREFIX__EAS;loadLibraryPath=__MW__/wlserver_10.3/server/lib</property>
           <property name="password">__SQL_PASSWORD__</property>
           <property name="port">1433</property>
           <property name="SSL_ENABLED">false</property>
@@ -273,11 +273,11 @@
               </bean>
             </listItem>
           </beanList>
-	  <property name="BEA_HOME">__ORACLE_ROOT__/Middleware</property>
+	  <property name="BEA_HOME">__MW__</property>
           <property name="domainName">EPMSystem</property>
           <property name="manualProcessing">false</property>
           <property name="remoteDeployment">false</property>
-          <property name="serverLocation">__ORACLE_ROOT__/Middleware/wlserver_10.3</property>
+          <property name="serverLocation">__MW__/wlserver_10.3</property>
         </bean>
       </bean>
       <bean name="httpServerConfiguration">

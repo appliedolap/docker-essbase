@@ -1,5 +1,5 @@
 ARG ORACLE_ROOT_DEFAULT=/opt/Oracle
-ARG PATCH_LEVEL=031
+ARG PATCH_LEVEL=000
 
 FROM centos:6.9 as media
 
@@ -13,15 +13,14 @@ RUN groupadd -f dba && \
 
 # A version of 7u211 (as part of the standard tar.gz distribution) would result in an extraction folder
 # of something like jdk1.7.0_211
-ENV ORACLE_ROOT=$ORACLE_ROOT_DEFAULT \
-    MW=$ORACLE_ROOT_DEFAULT/Middleware \
+ENV MW=$ORACLE_ROOT_DEFAULT/Middleware \
     EPM=$ORACLE_ROOT_DEFAULT/Middleware/EPMSystem11R1 \
     PATCH_LEVEL=$PATCH_LEVEL \
     JDK_VERSION=7u211 \
     JDK_FOLDER=jdk1.7.0_211 \
     TMP=/tmp
 
-RUN mkdir -p $ORACLE_ROOT && chown oracle:dba $ORACLE_ROOT
+RUN mkdir -p $ORACLE_ROOT_DEFAULT && chown oracle:dba $ORACLE_ROOT_DEFAULT
 
 USER oracle
 
@@ -49,7 +48,7 @@ RUN mkdir -p extracted && \
 # I guess don't ever use relative references for either invoking the installer or for 
 # the location of the install response file. The process bounces around various shell
 # invocations and other things and you'll get file not found errors
-RUN sed -i "s|__ORACLE_ROOT__|$ORACLE_ROOT|g" $HOME/essbase-install.xml && \ 
+RUN sed -i "s|__ORACLE_ROOT__|$ORACLE_ROOT_DEFAULT|g" $HOME/essbase-install.xml && \ 
     $HOME/extracted/installTool.sh -silent $HOME/essbase-install.xml
 
 # Remove JRE/JDKs supplied by Oracle as we will adding the 1.7 JDK. If for some reason
@@ -66,6 +65,7 @@ RUN rm -rf $MW/jrockit_160_37 && \
 
 # Configuration does not like the following items being removed:
 #  - $ORACLE_ROOT/Middleware/utils
+#  - rm -rf $EPM/perl/* 
 # Leave at least the odbc.ini file at $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/Merant/7.1/odbc.ini
 #  otherwise a symlink can't get created and the installer gets upset
 
@@ -83,7 +83,6 @@ RUN rm -rf $MW/jdk160_35/src.zip && \
     rm -rf $EPM/common/ODBC/* && \
     rm -rf $EPM/common/ODBC-64/Merant/7.1/lib/{ARase27r,ARdb227,ARhive27,ARimpala27,ARora27r,ARpsql27,ARsyiq27,libARmback,ARase27,ARgplm27r,ARifcl27r,ARmysql27,ARora27,ARsfrc27,libARmbackw,ARdb227r,ARgplm27,ARifcl27,ARoe27,ARpsql27r,libARssl27}.so && \
     rm -rf $EPM/common/ODBC-64/Merant/7.1/{adminhelp,help,bind,java}/* && \
-    rm -rf $EPM/perl/* && \
     bzip2 $EPM/products/Essbase/EssbaseServer/app/ASOsamp/Sample/dataload.txt 
 
 # This helper script will iterate through the patch zip files located in patches/PATCH_LEVEL. The patches should have their
@@ -149,15 +148,13 @@ RUN groupadd -f dba && \
 #     adding an LDAP directory)
 #
 
-ENV ORACLE_ROOT=$ORACLE_ROOT_DEFAULT 
-
-ENV JAVA_HOME=$ORACLE_ROOT/Middleware/jdk160_35 \
+ENV JAVA_HOME=$ORACLE_ROOT_DEFAULT/Middleware/jdk160_35 \
     JAVA_VENDOR=Sun \
     JAVA_OPTIONS=-XX:+UnlockCommercialFeatures \
-    EPM_ORACLE_INSTANCE=$ORACLE_ROOT/Middleware/user_projects/epmsystem1 \
-    MW=$ORACLE_ROOT/Middleware \
+    EPM_ORACLE_INSTANCE=$ORACLE_ROOT_DEFAULT/Middleware/user_projects/epmsystem1 \
+    MW=$ORACLE_ROOT_DEFAULT/Middleware \
     EPM=$ORACLE_ROOT_DEFAULT/Middleware/EPMSystem11R1 \
-    USER_PROJECTS=$ORACLE_ROOT/Middleware/user_projects \
+    USER_PROJECTS=$ORACLE_ROOT_DEFAULT/Middleware/user_projects \
     TMP=/tmp \
     EPM_ADMIN=admin \
     EPM_PASSWORD=password1 \
@@ -175,10 +172,10 @@ ENV JAVA_HOME=$ORACLE_ROOT/Middleware/jdk160_35 \
 # Augment system PATH so that Java and MaxL can be run straight from any command
 ENV PATH="${JAVA_HOME}/bin:${EPM_ORACLE_INSTANCE}/EssbaseServer/essbaseserver1/bin:${PATH}"
 
-RUN mkdir -p $ORACLE_ROOT && chown oracle:dba $ORACLE_ROOT
+RUN mkdir -p $ORACLE_ROOT_DEFAULT && chown oracle:dba $ORACLE_ROOT_DEFAULT
 
 # Other folders from install: bea, oraInventory
-COPY --from=media --chown=oracle:dba $ORACLE_ROOT $ORACLE_ROOT
+COPY --from=media --chown=oracle:dba $ORACLE_ROOT_DEFAULT $ORACLE_ROOT_DEFAULT
 
 USER oracle 
 

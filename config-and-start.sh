@@ -2,7 +2,7 @@
 #
 #
 # WebLogic command example:
-# WL_CMD="java -cp $ORACLE_ROOT/Middleware/wlserver_10.3/server/lib/weblogic.jar weblogic.Deployer -adminurl t3://127.0.0.1:7001 -user $EPM_ADMIN -password $EPM_PASSWORD" \
+# WL_CMD="java -cp $MW/wlserver_10.3/server/lib/weblogic.jar weblogic.Deployer -adminurl t3://127.0.0.1:7001 -user $EPM_ADMIN -password $EPM_PASSWORD" \
 #
 
 set -e
@@ -43,7 +43,8 @@ if [ ! -f ".hasBeenConfigured" ]; then
     -e "s/__SQL_PASSWORD__/$SQL_PASSWORD/g" \
     -e "s/__ESS_START_PORT__/$ESS_START_PORT/g" \
     -e "s/__ESS_END_PORT__/$ESS_END_PORT/g" \
-    -e "s|__ORACLE_ROOT__|$ORACLE_ROOT|g" \
+    -e "s|__EPM__|$EPM|g" \
+    -e "s|__MW__|$MW|g" \
     $HOME/essbase-config.xml  
 
     # Update the templatized variables for SQL connection in ODBC settings. This 
@@ -52,7 +53,7 @@ if [ ! -f ".hasBeenConfigured" ]; then
     -e "s/__SQL_USER__/$SQL_USER/g" \
     -e "s/__SQL_PASSWORD__/$SQL_PASSWORD/g" \
     -e "s/__SQL_DB__/${SQL_DB_PREFIX}HSS/g" \
-    -e "s/__EPM__/$EPM/g" \
+    -e "s|__EPM__|$EPM|g" \
     $HOME/odbc.ini > $EPM/common/ODBC-64/Merant/7.1/odbc.ini    
 
     if [ "$NO_CONFIG" = "true" ]; then
@@ -61,10 +62,10 @@ if [ ! -f ".hasBeenConfigured" ]; then
     fi
 
     sed -i -e 's|<dump intervalSeconds="10800" maxSizeMBytes="75" enabled="true"/>|<dump intervalSeconds="10800" maxSizeMBytes="75" enabled="false"/>|' \
-        $ORACLE_ROOT/Middleware/oracle_common/modules/oracle.dms_11.1.1/server_config/mbeans/dms_mbeans.xml
+        $MW/oracle_common/modules/oracle.dms_11.1.1/server_config/mbeans/dms_mbeans.xml
 
     sed -i -e 's|<dump intervalSeconds="10800" maxSizeMBytes="75" enabled="true"/>|<dump intervalSeconds="10800" maxSizeMBytes="75" enabled="false"/>|' \
-        $ORACLE_ROOT/Middleware/oracle_common/modules/oracle.dms_11.1.1/server_config/dms_config.xml
+        $MW/oracle_common/modules/oracle.dms_11.1.1/server_config/dms_config.xml
 
     $EPM/common/config/11.1.2.0/configtool.sh -silent $HOME/essbase-config.xml
 
