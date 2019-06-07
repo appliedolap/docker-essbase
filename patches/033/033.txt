@@ -1,0 +1,6 @@
+p29749662_111240_Linux-x86-64.zip - server
+p29749671_111240_Generic.zip      - APS
+p29749652_111240_Linux-x86-64.zip - RTC
+p29749659_111240_Linux-x86-64.zip - Client
+
+Note: don't need client (since is included in server files)
