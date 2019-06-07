@@ -192,7 +192,7 @@ COPY --chown=oracle:dba \
      .bashrc \
      ./
 
-EXPOSE 9000 1423 $ESS_START_PORT-$ESS_END_PORT 7001
+EXPOSE 9000 9443 1423 $ESS_START_PORT-$ESS_END_PORT 7001
 
 CMD ["sh", "-c", "./config-and-start.sh"]
 
