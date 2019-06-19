@@ -1,12 +1,16 @@
 ARG ORACLE_ROOT_DEFAULT=/opt/Oracle
 ARG PATCH_LEVEL=000
 
-FROM centos:6.9 as media
+FROM oraclelinux:6.10 as media
 
 ARG ORACLE_ROOT_DEFAULT
 ARG PATCH_LEVEL
 
-RUN touch /var/lib/rpm/* && yum -y install unzip
+RUN touch /var/lib/rpm/* && \
+    yum -y install \
+    bzip2 \
+    tar \
+    unzip 
 
 RUN groupadd -f dba && \
     useradd -G dba oracle
@@ -71,6 +75,7 @@ RUN rm -rf $MW/jrockit_160_37 && \
 
 RUN rm -rf $MW/jdk160_35/src.zip && \
     rm -rf $MW/jdk160_35/lib/visualvm/* && \
+    rm -rf $MW/jdk160_35/missioncontrol/* && \
     rm -rf $MW/oracle_common/jdk/jre/lib/fonts/* && \
     rm -rf $MW/oracle_common/doc/* && \
     rm -rf $EPM/products/Essbase/aps/util/* && \
@@ -91,7 +96,7 @@ RUN rm -rf $MW/jdk160_35/src.zip && \
    
 RUN ./apply_patches.sh
 
-RUN rm -rf $ORACLE_ROOT/Middleware/oracle_common/OPatch/Patches/* && \
+RUN rm -rf $MW/oracle_common/OPatch/Patches/* && \
     rm -rf $MW/oracle_common/.patch_storage/* && \
     rm -rf $MW/EPMSystem11R1/.patch_storage/* && \
     find $MW -name '_uninst*' -prune -exec rm -rf {} \; && \
@@ -100,13 +105,14 @@ RUN rm -rf $ORACLE_ROOT/Middleware/oracle_common/OPatch/Patches/* && \
 
 # Main Image
 
-FROM centos:6.9
+FROM oraclelinux:6.10
 
 ARG ORACLE_ROOT_DEFAULT
 
 LABEL maintainer="jason@appliedolap.com"
 
 RUN touch /var/lib/rpm/* && yum -y install \
+bzip2 \
 unzip \
 compat-libcap1 \
 libstdc++-devel \
@@ -124,7 +130,8 @@ libgcc \
 libgcc.i686 \
 compat-libstdc++-33 \
 compat-libstdc++-33.i686 \
-openssh-clients && \
+openssh-clients \
+which \
 yum clean all
 
 RUN groupadd -f dba && \
