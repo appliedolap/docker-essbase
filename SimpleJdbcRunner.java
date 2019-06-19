@@ -1,9 +1,12 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * A very simple Java class that can run SQL statements against a given database using a supplied
@@ -30,25 +33,38 @@ public class SimpleJdbcRunner {
 	 */
 	private static final String TRUE = "true";
 
+	public static final Integer DEFAULT_CONNECT_ATTEMPTS = 5;
+	
+	public static final Integer DEFAULT_CONNECT_DELAY = 5;
+	
+	public static final String OPT_CONNECT_ATTEMPTS = "connect-attempts";
+	
+	public static final String OPT_CONNECT_DELAY = "reconnect-delay";
+	
 	/**
-	 * E
+	 * Example invocation:
+	 * 
+	 * <pre>
+	 * args = new String[] {"-driver", "net.sourceforge.jtds.jdbc.Driver", "-url",
+	 *	 "jdbc:jtds:sqlserver://docker1:1401;appName=RazorSQL;useCursors=true", "-username", "sa",
+	 *	 "-connect-attempts", "12", 
+	 *	 "-password", "ABcd12#$", "-query", "SELECT 1;SELECT 2;DROP DATABASE IF EXISTS HFM1;CREATE DATABASE HFM1",
+	 *	 "-file", "ddl.sql"};
+	 * </pre>
 	 * 
 	 * @param args
 	 */
-	public static void main(String... args) {
-
-		 //args = new String[] {"-driver", "net.sourceforge.jtds.jdbc.Driver", "-url",
-		 //"jdbc:jtds:sqlserver://docker1;appName=RazorSQL;useCursors=true", "-username", "sa",
-		 //"-connect-attempts", "12", 
-		 //"-password", "ABcd12#$", "-query", "SELECT 1;SELECT 2;DROP DATABASE IF EXISTS HFM1;CREATE DATABASE HFM1"};
+	public static void main(String[] args) {
 		 
-		Map<String, String> options= new HashMap<String, String>();
-		options.put("connect-attempts", "5");
-		options.put("reconnect-delay", "5");
+		Map<String, String> options = new HashMap<String, String>();
+		options.put(OPT_CONNECT_ATTEMPTS, DEFAULT_CONNECT_ATTEMPTS.toString());
+		options.put("reconnect-delay", DEFAULT_CONNECT_DELAY.toString());
 		options.putAll(parseOptions(args));
 		
 		try {
 			new SimpleJdbcRunner(options);
+		} catch (FileNotFoundException e) {
+			System.err.println("Could not find file: " + e.getMessage());
 		} catch (SQLException e) {
 			System.err.println("SQL error: " + e.getMessage());
 			e.printStackTrace(System.err);
@@ -61,13 +77,13 @@ public class SimpleJdbcRunner {
 
 	}
 
-	public SimpleJdbcRunner(Map<String, String> options) throws SQLException, ClassNotFoundException, InterruptedException {
+	public SimpleJdbcRunner(Map<String, String> options) throws SQLException, ClassNotFoundException, InterruptedException, FileNotFoundException {
 		if (options.containsKey("driver")) {
 			Class.forName(options.get("driver"));
 		}
 
-		int connectAttempts = Integer.parseInt(options.get("connect-attempts"));
-		int reconnectDelay = Integer.parseInt(options.get("reconnect-delay"));
+		int connectAttempts = Integer.parseInt(options.get(OPT_CONNECT_ATTEMPTS));
+		int reconnectDelay = Integer.parseInt(options.get(OPT_CONNECT_DELAY));
 		
 		Connection connection = null;
 		for (int attempt = 1; attempt < connectAttempts; attempt++) {
@@ -76,18 +92,40 @@ public class SimpleJdbcRunner {
 				break;
 			} catch (SQLException e) {
 				System.err.println("Unable to connect to database on attempt " + attempt + ", waiting " + reconnectDelay + "s before attempting again, will try " + (connectAttempts - attempt) + " more times");
+				System.err.println("Error was: " + e.getMessage());
 				Thread.sleep(reconnectDelay * 1000);
 			}
 		}
 		
-		String queries[] = options.get("query").split(";");
-		for (String query : queries) {
-			Statement statement = connection.createStatement();
-			System.out.println("Executing: " + query);
-			// returns true if the return object is a result set, false otherwise
-			statement.execute(query);
-			statement.close();
+		if (options.get("query") != null) {
+			String queries[] = options.get("query").split(";");
+			for (String query : queries) {
+				Statement statement = connection.createStatement();
+				System.out.println("Executing: " + query);
+				// returns true if the return object is a result set, false otherwise
+				statement.execute(query);
+				statement.close();
+			}
 		}
+		
+		String filename = options.get("file");
+		if (filename != null) {
+			File sqlFile = new File(filename);
+			if (!sqlFile.exists()) {
+				throw new FileNotFoundException(filename);
+			}
+			Scanner scanner = new Scanner(sqlFile);
+			scanner.useDelimiter(";");
+			while (scanner.hasNext()) {
+				String sqlLine = scanner.next();
+				System.out.println("SQL Line: " + sqlLine);
+				Statement statement = connection.createStatement();
+				statement.execute(sqlLine);
+				statement.close();
+			}
+			scanner.close();
+		}
+		
 		connection.close();
 	}
 
@@ -130,11 +168,10 @@ public class SimpleJdbcRunner {
 					options.put(currentItem.substring(1), TRUE);
 				}
 			}
-			// always advanced index even if it wasn't a valid option
+			// always advance index even if it wasn't a valid option
 			currentIndex += 1;
 		}
 		return options;
 	}
-
+	
 }
-
