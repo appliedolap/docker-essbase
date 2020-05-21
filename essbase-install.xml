@@ -13,10 +13,11 @@
         </Product>
         <Product name="essbase">
             <Component>essbaseWebApp</Component>
-            <Component>essbaseApsWebApp</Component>
-	    <!--
+	    <Component>essbaseApsWebApp</Component>
+	    <!-- Essbase Studio, not installed by default -->
 	    <Component>essbaseStudioService</Component>
-	    -->
+	    <Component>essbaseStudioServiceSamples</Component>
+	    <!-- End of Essbase Studio components -->
             <Component>essbaseService</Component>
 	    <Component>essbaseServiceSamples</Component>
         </Product>

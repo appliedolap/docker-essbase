@@ -15,6 +15,6 @@
 # so on). To skip applying any patches you can specify level 000 or omit the parameter
 
 docker-compose down
-docker-compose build --build-arg PATCH_LEVEL=033
+docker-compose build --build-arg PATCH_LEVEL=000
 docker-compose up --detach
 docker-compose logs --follow essbase

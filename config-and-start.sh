@@ -29,7 +29,7 @@ if [ ! -f ".hasBeenConfigured" ]; then
     -url jdbc:jtds:sqlserver://$SQL_HOST \
     -username sa \
     -password "$SQL_PASSWORD" \
-    -query "DROP DATABASE IF EXISTS ${SQL_DB_PREFIX}HSS, ${SQL_DB_PREFIX}EAS;CREATE DATABASE ${SQL_DB_PREFIX}HSS;CREATE DATABASE ${SQL_DB_PREFIX}EAS"
+    -query "DROP DATABASE IF EXISTS ${SQL_DB_PREFIX}HSS, ${SQL_DB_PREFIX}EAS;CREATE DATABASE ${SQL_DB_PREFIX}HSS;CREATE DATABASE ${SQL_DB_PREFIX}EAS; CREATE DATABASE EPM_STUDIO"
 
     # Make sure that the refernce to both of these (or at least the configtool.sh call) are absolute paths
     # as otherwise the exec/fork calls inside will fail

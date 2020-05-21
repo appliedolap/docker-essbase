@@ -2,8 +2,8 @@ version: '3'
 services:
   db: 
     image: "microsoft/mssql-server-linux:2017-latest"
-    expose:
-      - "1433"
+    ports:
+            - "1433:1433"
     environment:
       ACCEPT_EULA: Y
       SA_PASSWORD: ${SQL_PW}
@@ -17,6 +17,8 @@ services:
     container_name: essbase
     ports:
       - "7001:7001"
+      - "5300:5300"
+      - "12080:12080"
       - "9000:9000"
       - "9443:9443"
       - "1423:1423"
@@ -39,4 +41,5 @@ services:
       SQL_PASSWORD: ${SQL_PW}
       RESTART_EPM_AFTER_LCM_IMPORT: "false"
       AUTO_START_ADMIN_CONSOLE: "false"
+      #NO_CONFIG: "true"
 

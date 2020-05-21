@@ -70,6 +70,8 @@ RUN rm -rf $MW/jrockit_160_37 && \
 # Configuration does not like the following items being removed:
 #  - $ORACLE_ROOT/Middleware/utils
 #  - rm -rf $EPM/perl/* 
+#
+# Adding back in     rm -rf $EPM/common/{docs,hfm,EssbaseRTC,essbase-studio-sdk}/* && \ (Studio)
 # Leave at least the odbc.ini file at $ORACLE_ROOT/Middleware/EPMSystem11R1/common/ODBC-64/Merant/7.1/odbc.ini
 #  otherwise a symlink can't get created and the installer gets upset
 
@@ -82,7 +84,7 @@ RUN rm -rf $MW/jdk160_35/src.zip && \
     rm -rf $EPM/products/Essbase/EssbaseServer-32/* && \
     rm -rf $EPM/products/Essbase/{EssbaseClient-32,EssbaseServer-32}/* && \
     rm -rf $EPM/products/Essbase/EssbaseServer/app/{DMDemo,Sampeast,Samppart} && \
-    rm -rf $EPM/common/{docs,hfm,EssbaseRTC,essbase-studio-sdk}/* && \
+    rm -rf $EPM/common/{docs,hfm,EssbaseRTC}/* && \
     rm -rf $EPM/common/epmstatic/webanalysis/* && \
     rm -rf $EPM/common/JRE/Sun/1.6.0 && \
     rm -rf $EPM/common/ODBC/* && \

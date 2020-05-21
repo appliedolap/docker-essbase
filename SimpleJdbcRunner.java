@@ -109,19 +109,38 @@ public class SimpleJdbcRunner {
 		}
 		
 		String filename = options.get("file");
+		String delimiter = options.get("delimiter");
+		
+		if (delimiter == null) delimiter = ";";
+		
 		if (filename != null) {
 			File sqlFile = new File(filename);
 			if (!sqlFile.exists()) {
 				throw new FileNotFoundException(filename);
 			}
 			Scanner scanner = new Scanner(sqlFile);
-			scanner.useDelimiter(";");
-			while (scanner.hasNext()) {
-				String sqlLine = scanner.next();
-				System.out.println("SQL Line: " + sqlLine);
-				Statement statement = connection.createStatement();
-				statement.execute(sqlLine);
-				statement.close();
+			
+			if (!options.containsKey("line-by-line")) {
+				scanner.useDelimiter(delimiter);
+				while (scanner.hasNext()) {
+					String sqlLine = scanner.next().trim();
+					if (!sqlLine.isEmpty()) {
+						System.out.println("SQL Line: " + sqlLine);
+						Statement statement = connection.createStatement();
+						statement.execute(sqlLine);
+						statement.close();
+					}
+				}
+			} else {
+				while (scanner.hasNextLine()) {
+					String sqlLine = scanner.nextLine().trim();
+					if (!sqlLine.isEmpty()) {
+						System.out.println("SQL Line: " + sqlLine);
+						Statement statement = connection.createStatement();
+						statement.execute(sqlLine);
+						statement.close();
+					}
+				}
 			}
 			scanner.close();
 		}
@@ -175,3 +194,4 @@ public class SimpleJdbcRunner {
 	}
 	
 }
+
